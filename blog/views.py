@@ -3,64 +3,11 @@ from django.http import HttpResponse
 from django.shortcuts import render
 from .models import Post, Like, Category
 from django.contrib.auth import authenticate, login
-from .forms import LoginForm, RegisterForm
 from django.contrib import messages
 
 def LandingPage(request):
     return render(request, 'landing_page.html')
 
-def Login(request):
-    if request.method == 'POST':
-        form = LoginForm(request.POST)
-        if form.is_valid():
-            email = form.cleaned_data['email']
-            password = form.cleaned_data['password']
-            # Authenticate user using email instead of username
-            user = authenticate(request, username=email, password=password)
-            if user is not None:
-                login(request, user)
-                return redirect('home')  # Redirect to the homepage or any other page after login
-            else:
-                form.add_error(None, 'Invalid email or password')
-    else:
-        form = LoginForm()
-
-    return render(request, 'login.html', {'form': form})
-
-def Register(request):
-    if request.method == 'POST':
-        form = RegisterForm(request.POST)
-        if form.is_valid():
-            # Extracting data from the form
-            email = form.cleaned_data['email']
-            first_name = form.cleaned_data['first_name']
-            last_name = form.cleaned_data['last_name']
-            password = form.cleaned_data['password']
-            password2 = form.cleaned_data['password2']
-
-            # Ensure the passwords match
-            if password != password2:
-                messages.error(request, "Passwords do not match")
-                return redirect('signup')
-
-            # Create the new user using the custom manager
-            user = CustomUser.objects.create_user(
-                email=email,
-                password=password,
-                first_name=first_name,
-                last_name=last_name
-            )
-
-            # Log the user in after successful registration
-            login(request, user)
-
-            # Redirect to a success page (for example, homepage)
-            return redirect('home')  # Change this to whatever your homepage view is called
-
-    else:
-        form = RegisterForm()
-
-    return render(request, 'signup.html', {'form': form})
 
 def CategoryList(request):
     categories = Category.objects.all()

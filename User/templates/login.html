@@ -1,4 +1,4 @@
-<!-- templates/blog/login.html -->
+
 {% extends 'blog_base.html' %}
 
 {% block content %}
@@ -7,8 +7,8 @@
     <form method="post">
         {% csrf_token %}
         {{ form.as_p }}
-        <button type="submit" class="btn btn-primary">Login</button>
+        <button type="submit" class="btn btn-primary">Log in</button>
     </form>
-    <p>Don't have an account? <a href="{% url 'register' %}">Register here</a></p>
+    <p>Don't have an account? <a href="{% url 'signup' %}">Sign up</a></p>
 </div>
 {% endblock %}
