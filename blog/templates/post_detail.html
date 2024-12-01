@@ -1,0 +1,16 @@
+<!-- templates/blog/post_detail.html -->
+{% extends 'blog_base.html' %}
+
+{% block content %}
+<div class="container mt-5">
+    <h1>{{ post.title }}</h1>
+    <p><small>Published on {{ post.created_at }}</small></p>
+
+    <div class="post-content">
+        <p>{{ post.content }}</p>
+    </div>
+
+    <!-- Optionally, adding a back link to the category post -->
+    <a href="{% url 'category_post' post.category.id %}" class="btn btn-secondary">Back</a>
+</div>
+{% endblock %}

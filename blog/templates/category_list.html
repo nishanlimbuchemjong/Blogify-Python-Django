@@ -1,0 +1,14 @@
+{% extends 'blog_base.html' %}
+
+{% block title %}Categories{% endblock %}
+
+{% block content %}
+    <h1>All Category</h1>
+    <ul>
+        {% for category in categories %}
+            <li><a href="{% url 'category_post' category.id %}">{{ category.name }}</a></li>
+        {% endfor %}
+    </ul>
+    <!-- Optionally, adding a back link to the landing page -->
+    <a href="{% url 'landing_page'%}" class="btn btn-secondary">Back</a>
+{% endblock %}
