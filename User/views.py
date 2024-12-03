@@ -6,7 +6,7 @@ from django.shortcuts import get_object_or_404, redirect
 from .models import CustomUser
 from blog.models import Post, Like, Category, Comment
 from django.contrib.auth.decorators import login_required
-
+from .forms import CategoryForm
 def UserHome(request):
     return render(request, 'user_home.html')
 
@@ -91,10 +91,19 @@ def Register(request):
     return render(request, 'signup.html', {'form': form})
 
 def UserCategoryList(request):
-    categories = Category.objects.all()
-    print(" categories:",categories)
-    return render(request, 'user_category_list.html', {'categories':categories})
+    # Handle form submission
+    if request.method == 'POST':
+        form = CategoryForm(request.POST)
+        if form.is_valid():
+            form.save()
+            messages.success(request, "Category added successfully!")
+            return redirect('user_category_list')
+    else:
+        form = CategoryForm()
 
+    # Fetch all categories
+    categories = Category.objects.all()
+    return render(request, 'user_category_list.html', {'categories': categories, 'form': form})
 
 def UserCategoryPosts(request, category_id):
     # Get the category based on the ID
