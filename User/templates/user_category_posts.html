@@ -1,0 +1,25 @@
+{% extends 'user_base.html' %}
+
+{% block content %}
+<div class="container mt-5">
+    <h1>Posts in Category: {{ category.name }}</h1>
+
+    {% if posts %}
+        <div class="list-group">
+            {% for post in posts %}
+                <a href="{% url 'user_post_detail' post.id %}" class="list-group-item list-group-item-action">
+                    <h5 class="mb-1">{{ post.title }}</h5>
+                    <p class="mb-1">{{ post.content|truncatewords:20 }}</p>
+                    <small>Published: {{ post.created_at }}</small>
+                </a>
+            {% endfor %}
+        </div>
+        <!-- Optionally, adding a back link to the category list-->
+        <a href="{% url 'user_category_list'%}" class="btn btn-secondary">Back</a>
+
+    {% else %}
+        <p>No posts available in this category.</p>
+    {% endif %}
+</div>
+{% endblock %}
+

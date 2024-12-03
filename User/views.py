@@ -4,6 +4,8 @@ from .forms import LoginForm, RegisterForm
 from django.contrib import messages
 from django.shortcuts import get_object_or_404, redirect
 from .models import CustomUser
+from blog.models import Post, Like, Category, Comment
+from django.contrib.auth.decorators import login_required
 
 def UserHome(request):
     return render(request, 'user_home.html')
@@ -87,3 +89,42 @@ def Register(request):
         form = RegisterForm()
 
     return render(request, 'signup.html', {'form': form})
+
+def UserCategoryList(request):
+    categories = Category.objects.all()
+    print(" categories:",categories)
+    return render(request, 'user_category_list.html', {'categories':categories})
+
+
+def UserCategoryPosts(request, category_id):
+    # Get the category based on the ID
+    category = get_object_or_404(Category, id=category_id)
+
+    # Filter posts by the category
+    posts = Post.objects.filter(category=category)
+
+    # Render the posts to the template
+    return render(request, 'user_category_posts.html', {'category': category, 'posts': posts})
+
+@login_required
+def UserPostDetails(request, post_id):
+    post = get_object_or_404(Post, id=post_id)
+
+    if request.method == 'POST':
+        content = request.POST.get('content')
+        if content:
+            Comment.objects.create(post=post, author=request.user, content=content)
+
+    # Fetch all comments for the post
+    comments = post.comments.all()
+
+    # Fetch like status
+    user_like = post.likes.filter(user=request.user, is_like=True).exists()
+    like_count = post.likes.filter(is_like=True).count()
+
+    return render(request, 'user_post_detail.html', {
+        'post': post,
+        'comments': comments,
+        'user_like': user_like,
+        'like_count': like_count,
+    })

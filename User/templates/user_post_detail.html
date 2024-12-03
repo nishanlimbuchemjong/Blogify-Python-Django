@@ -1,4 +1,4 @@
-{% extends 'blog_base.html' %}
+{% extends 'user_base.html' %}
 
 {% block content %}
 <div class="container mt-5">
@@ -53,7 +53,7 @@
 </div>
 
     <!-- Back Link -->
-    <a href="{% url 'category_post' post.category.id %}" class="btn btn-secondary mt-3">Back</a>
+    <a href="{% url 'user_category_post' post.category.id %}" class="btn btn-secondary mt-3">Back</a>
 </div>
 <script>
     document.getElementById('like-btn').addEventListener('click', function () {
