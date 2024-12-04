@@ -7,6 +7,8 @@ from .models import CustomUser
 from blog.models import Post, Like, Category, Comment
 from django.contrib.auth.decorators import login_required
 from .forms import CategoryForm
+from django.http import JsonResponse
+
 def UserHome(request):
     return render(request, 'user_home.html')
 
@@ -137,3 +139,57 @@ def UserPostDetails(request, post_id):
         'user_like': user_like,
         'like_count': like_count,
     })
+
+
+@login_required
+def toggle_like(request, post_id):
+    post = get_object_or_404(Post, id=post_id)
+    user = request.user
+    # Check if the user has already liked the post
+    like_obj = Like.objects.filter(post=post, user=user).first()
+
+    if like_obj:
+        if like_obj.is_like:
+            like_obj.is_like = False  # Unlike the post
+            action = 'unliked'
+        else:
+            like_obj.is_like = True  # Like the post
+            action = 'liked'
+        like_obj.save()
+    else:
+        # If the user hasn't liked the post, create a new Like object
+        Like.objects.create(post=post, user=user, is_like=True)
+        action = 'liked'
+
+    # Return updated like count and like status
+    return JsonResponse({
+        "like_count": post.likes.filter(is_like=True).count(),
+        "user_like": action == 'liked',
+        "action": action,
+    })
+
+@login_required
+def post_comment(request, post_id):
+    post = get_object_or_404(Post, id=post_id)
+
+    if request.method == 'POST':
+        # Parse the JSON content from the request body
+        import json
+        data = json.loads(request.body)
+
+        # Extract the comment content
+        content = data.get('content')
+        if content:
+            # Create and save the comment
+            comment = Comment.objects.create(post=post, author=request.user, content=content)
+
+            # Return the newly added comment's data as JSON
+            return JsonResponse({
+                "author": comment.author.first_name,
+                "content": comment.content,
+                "created_at": comment.created_at,
+            })
+        else:
+            return JsonResponse({"error": "No content provided"}, status=400)
+
+    return JsonResponse({"error": "Invalid request"}, status=400)

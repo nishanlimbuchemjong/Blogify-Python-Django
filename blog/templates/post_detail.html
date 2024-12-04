@@ -18,43 +18,26 @@
     </div>
 
     <!-- Comment Section -->
-<!--    <div class="mt-4">-->
-<!--        <h3>Comments</h3>-->
-<!--        <form method="POST">-->
-<!--            {% csrf_token %}-->
-<!--            <textarea name="content" class="form-control" rows="3" placeholder="Write a comment..." required></textarea>-->
-<!--            <button type="submit" class="btn btn-success mt-2">Add Comment</button>-->
-<!--        </form>-->
-
-<!--        <ul class="list-group mt-3">-->
-<!--            {% for comment in comments %}-->
-<!--                <li class="list-group-item">-->
-<!--                    <strong>{{ comment.author.first_name }}</strong> says:-->
-<!--                    <p>{{ comment.content }}</p>-->
-<!--                    <small>Posted on {{ comment.created_at }}</small>-->
-<!--                </li>-->
-<!--            {% endfor %}-->
-<!--        </ul>-->
-<!--    </div>-->
     <div class="mt-4">
-    <h3>Comments</h3>
-    <ul>
-        {% for comment in post.comments.all %}
-            <li><strong>{{ comment.author }}</strong>: {{ comment.content }}</li>
-        {% empty %}
-            <li>No comments yet. Be the first to comment!</li>
-        {% endfor %}
-    </ul>
+        <h3>Comments</h3>
+        <ul>
+            {% for comment in post.comments.all %}
+                <li><strong>{{ comment.author }}</strong>: {{ comment.content }}</li>
+            {% empty %}
+                <li>No comments yet. Be the first to comment!</li>
+            {% endfor %}
+        </ul>
 
-    <form id="comment-form">
-        <textarea id="comment-text" class="form-control" placeholder="Enter your comment"></textarea>
-        <button type="submit" class="btn btn-primary mt-2">Submit</button>
-    </form>
-</div>
+        <form id="comment-form">
+            <textarea id="comment-text" class="form-control" placeholder="Enter your comment"></textarea>
+            <button type="submit" class="btn btn-primary mt-2">Submit</button>
+        </form>
+    </div>
 
     <!-- Back Link -->
     <a href="{% url 'category_post' post.category.id %}" class="btn btn-secondary mt-3">Back</a>
 </div>
+
 <script>
     document.getElementById('like-btn').addEventListener('click', function () {
         fetch("{% url 'toggle_like' post.id %}", {
@@ -65,7 +48,7 @@
         })
         .then((response) => {
             if (response.redirected) {
-                window.location.href = response.url;  // Redirect if user not logged in
+                window.location.href = response.url;  // Redirect to login if not authenticated
             } else if (response.ok) {
                 return response.json();
             }
@@ -96,7 +79,7 @@
         })
         .then((response) => {
             if (response.redirected) {
-                window.location.href = response.url;  // Redirect if user not logged in
+                window.location.href = response.url;  // Redirect to login if not authenticated
             } else if (response.ok) {
                 return response.json();
             }

@@ -131,3 +131,4 @@ def add_comment(request, post_id):
             return JsonResponse({"error": "Invalid JSON format"}, status=400)
 
     return HttpResponse("Invalid request method.", status=405)
+
