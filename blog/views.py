@@ -24,6 +24,7 @@ def CategoryPosts(request, category_id):
     # Filter posts by the category
     posts = Post.objects.filter(category=category)
 
+
     # Render the posts to the template
     return render(request, 'category_posts.html', {'category': category, 'posts': posts})
 
@@ -35,20 +36,43 @@ def CategoryPosts(request, category_id):
 #     # Render the post details page
 #     return render(request, 'post_detail.html', {'post': post})
 
-@login_required
+#
+# def PostDetails(request, post_id):
+#     post = get_object_or_404(Post, id=post_id)
+#
+#     if request.method == 'POST':
+#         content = request.POST.get('content')
+#         if content:
+#             Comment.objects.create(post=post, author=request.user, content=content)
+#
+#     # Fetch all comments for the post
+#     comments = post.comments.all()
+#
+#     # Fetch like status
+#     user_like = post.likes.filter(user=request.user, is_like=True).exists()
+#     like_count = post.likes.filter(is_like=True).count()
+#
+#     return render(request, 'post_detail.html', {
+#         'post': post,
+#         'comments': comments,
+#         'user_like': user_like,
+#         'like_count': like_count,
+#     })
 def PostDetails(request, post_id):
     post = get_object_or_404(Post, id=post_id)
 
+    # Handle comment submission (this part requires login)
     if request.method == 'POST':
+        if not request.user.is_authenticated:
+            return redirect('login')  # Redirect to login page if user is not authenticated
+
         content = request.POST.get('content')
         if content:
             Comment.objects.create(post=post, author=request.user, content=content)
 
-    # Fetch all comments for the post
+    # Fetch comments and like status
     comments = post.comments.all()
-
-    # Fetch like status
-    user_like = post.likes.filter(user=request.user, is_like=True).exists()
+    user_like = request.user.is_authenticated and post.likes.filter(user=request.user, is_like=True).exists()
     like_count = post.likes.filter(is_like=True).count()
 
     return render(request, 'post_detail.html', {
@@ -57,7 +81,6 @@ def PostDetails(request, post_id):
         'user_like': user_like,
         'like_count': like_count,
     })
-
 
 
 

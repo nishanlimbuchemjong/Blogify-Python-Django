@@ -8,6 +8,7 @@
         <div class="list-group">
             {% for post in posts %}
                 <a href="{% url 'post_detail' post.id %}" class="list-group-item list-group-item-action">
+
                     <h5 class="mb-1">{{ post.title }}</h5>
                     <p class="mb-1">{{ post.content|truncatewords:20 }}</p>
                     <small>Published: {{ post.created_at }}</small>

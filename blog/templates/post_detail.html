@@ -57,7 +57,7 @@
 </div>
 <script>
     document.getElementById('like-btn').addEventListener('click', function () {
-        fetch("{% url 'post_like' post.id %}", {
+        fetch("{% url 'toggle_like' post.id %}", {
             method: "POST",
             headers: {
                 "X-CSRFToken": "{{ csrf_token }}",
