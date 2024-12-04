@@ -10,6 +10,9 @@ import json
 def LandingPage(request):
     return render(request, 'landing_page.html')
 
+def AllPosts(request):
+    posts = Post.objects.all()
+    return render(request, 'all_posts.html', {'posts': posts})
 
 def CategoryList(request):
     categories = Category.objects.all()

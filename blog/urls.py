@@ -6,6 +6,7 @@ urlpatterns = [
     path('', views.LandingPage, name='landing_page'),
     path('category/<int:category_id>/', views.CategoryPosts, name='category_post'),
     path('category/', views.CategoryList, name='category_list'),
+    path('post/', views.AllPosts, name='all_posts'),
     path('post/<int:post_id>/', views.PostDetails, name='post_detail'),
 
     # path('accounts/login/', views.custom_login, name='login'),  # Custom login URL
