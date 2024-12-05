@@ -1,5 +1,5 @@
 from django import forms
-from blog.models import Category
+from blog.models import Category, Post
 
 class LoginForm(forms.Form):
     email = forms.EmailField(widget=forms.EmailInput(attrs={'placeholder': 'Email', 'class': 'form-control'}))
@@ -41,3 +41,9 @@ class CategoryForm(forms.ModelForm):
             'name': 'Category Name',
             'description': 'Description',
         }
+
+
+class PostForm(forms.ModelForm):
+    class Meta:
+        model = Post
+        fields = ['title', 'content', 'category']  # Include fields you want to manage

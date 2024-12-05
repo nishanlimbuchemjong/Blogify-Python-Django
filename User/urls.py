@@ -11,6 +11,7 @@ urlpatterns = [
     path('category/<int:category_id>/', views.UserCategoryPosts, name='user_category_post'),
     path('category/', views.UserCategoryList, name='user_category_list'),
     path('posts/', views.UserPosts, name='user_own_post'),
+    path('posts/add/', views.AddPost, name='add_user_post'),
     # path('post/<int:post_id>/', views.UserPostDetails, name='user_post_detail'),
     path('post/<int:post_id>/', views.UserPostDetails, name='user_post_detail'),
 

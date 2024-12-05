@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from django.contrib.auth import authenticate, login, logout
-from .forms import LoginForm, RegisterForm
+from .forms import LoginForm, RegisterForm, PostForm
 from django.contrib import messages
 from django.shortcuts import get_object_or_404, redirect
 from .models import CustomUser
@@ -146,6 +146,21 @@ def UserPostDetails(request, post_id):
         'user_like': user_like,
         'like_count': like_count,
     })
+
+@login_required
+def AddPost(request):
+    if request.method == "POST":
+        form = PostForm(request.POST, request.FILES)
+        if form.is_valid():
+            post = form.save(commit=False)
+            post.author = request.user  # Assign logged-in user as the author
+            post.save()
+            messages.success(request, "Post created successfully!")
+            return redirect('user_home')  # Redirect to user's post list
+    else:
+        form = PostForm()
+
+    return render(request, 'add_user_post.html', {'form': form})
 
 
 @login_required
