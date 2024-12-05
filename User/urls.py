@@ -27,7 +27,7 @@ urlpatterns = [
     # Admin urls
     path('admin_home/', views.AdminHome, name='admin_home'),
     path('categories/', views.AdminCategoryList, name='admin_category_list'),
-    # path('category/add', views.AddCategory, name='add_user_category'),
+    path('category/add', views.AddCategory, name='add_user_category'),
     path('categories/<int:category_id>/', views.AdminCategoryPosts, name='admin_category_post'),
 
 ]

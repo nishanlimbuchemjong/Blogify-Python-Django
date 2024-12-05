@@ -254,3 +254,15 @@ def AdminCategoryPosts(request, category_id):
 
     # Render the posts to the template
     return render(request, 'admin/admin_category_post.html', {'category': category, 'posts': posts})
+
+def AddCategory(request):
+    if request.method == 'POST':
+        form = CategoryForm(request.POST)
+        if form.is_valid():
+            form.save()
+            messages.success(request, "Category added successfully!")
+            return redirect('admin_category_list')
+    else:
+        form = CategoryForm()
+    return render(request, 'admin/add_category_list.html', { 'form': form})
+
