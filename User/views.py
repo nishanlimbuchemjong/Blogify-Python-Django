@@ -156,7 +156,7 @@ def AddPost(request):
             post.author = request.user  # Assign logged-in user as the author
             post.save()
             messages.success(request, "Post created successfully!")
-            return redirect('user_home')  # Redirect to user's post list
+            return redirect('user_own_post')  # Redirect to user's post list
     else:
         form = PostForm()
 
