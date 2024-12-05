@@ -237,17 +237,20 @@ def post_comment(request, post_id):
 
     return JsonResponse({"error": "Invalid request"}, status=400)
 
+
+# functions related to Admin
+
 def AdminCategoryList(request):
     categories = Category.objects.all()
     return render(request, 'admin/admin_category_list.html', {'categories': categories})
 
-def AddCategory(request):
-    if request.method == 'POST':
-        form = CategoryForm(request.POST)
-        if form.is_valid():
-            form.save()
-            messages.success(request, "Category added successfully!")
-            return redirect('admin_category_list')
-    else:
-        form = CategoryForm()
-    return render(request, 'admin/admin_add_category.html', { 'form': form})
+
+def AdminCategoryPosts(request, category_id):
+    # Get the category based on the ID
+    category = get_object_or_404(Category, id=category_id)
+
+    # Filter posts by the category
+    posts = Post.objects.filter(category=category)
+
+    # Render the posts to the template
+    return render(request, 'admin/admin_category_post.html', {'category': category, 'posts': posts})
