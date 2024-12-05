@@ -10,10 +10,10 @@ from .forms import CategoryForm
 from django.http import JsonResponse
 
 def UserHome(request):
-    return render(request, 'user_home.html')
+    return render(request, 'user/user_home.html')
 
 def AdminHome(request):
-    return render(request, 'admin_home.html')
+    return render(request, 'admin/admin_home.html')
 
 # Create your views here.
 def Login(request):
@@ -99,13 +99,13 @@ def UserCategoryList(request):
         if form.is_valid():
             form.save()
             messages.success(request, "Category added successfully!")
-            return redirect('user_category_list')
+            return redirect('user/user_category_list')
     else:
         form = CategoryForm()
 
     # Fetch all categories
     categories = Category.objects.all()
-    return render(request, 'user_category_list.html', {'categories': categories, 'form': form})
+    return render(request, 'user/user_category_list.html', {'categories': categories, 'form': form})
 
 def UserCategoryPosts(request, category_id):
     # Get the category based on the ID
@@ -115,14 +115,14 @@ def UserCategoryPosts(request, category_id):
     posts = Post.objects.filter(category=category)
 
     # Render the posts to the template
-    return render(request, 'user_category_posts.html', {'category': category, 'posts': posts})
+    return render(request, 'user/user_category_posts.html', {'category': category, 'posts': posts})
 
 
 @login_required
 def UserPosts(request):
     # Filter posts created by the logged-in user
     user_posts = Post.objects.filter(author=request.user)
-    return render(request, 'users_own_posts.html', {'user_posts': user_posts})
+    return render(request, 'user/users_own_posts.html', {'user_posts': user_posts})
 
 @login_required
 def UserPostDetails(request, post_id):
@@ -140,7 +140,7 @@ def UserPostDetails(request, post_id):
     user_like = post.likes.filter(user=request.user, is_like=True).exists()
     like_count = post.likes.filter(is_like=True).count()
 
-    return render(request, 'user_post_detail.html', {
+    return render(request, 'user/user_post_detail.html', {
         'post': post,
         'comments': comments,
         'user_like': user_like,
@@ -156,11 +156,11 @@ def AddPost(request):
             post.author = request.user  # Assign logged-in user as the author
             post.save()
             messages.success(request, "Post created successfully!")
-            return redirect('user_own_post')  # Redirect to user's post list
+            return redirect('user/user_own_post')  # Redirect to user's post list
     else:
         form = PostForm()
 
-    return render(request, 'add_user_post.html', {'form': form})
+    return render(request, 'user/add_user_post.html', {'form': form})
 
 
 @login_required
