@@ -3,7 +3,8 @@
 {% block content %}
 <div class="container mt-5">
     <h1>{{ post.title }}</h1>
-    <p><small>Published on {{ post.created_at }}</small></p>
+    <p>Author: <b>{{post.author.first_name}} {{post.author.last_name}}</b><br>
+    <small>Published on {{ post.created_at }} <a href="{% url 'edit_post' post.id %}" class="btn btn-primary btn-sm">Edit</a></small> </p>
 
     <div class="post-content">
         <p>{{ post.content }}</p>

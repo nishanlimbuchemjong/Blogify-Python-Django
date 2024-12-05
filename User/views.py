@@ -174,6 +174,19 @@ def AddPost(request):
     return render(request, 'user/add_user_post.html', {'form': form})
 
 @login_required
+def EditPost(request, post_id):
+    post = get_object_or_404(Post, id=post_id, author=request.user)
+    if request.method == 'POST':
+        form = PostForm(request.POST, instance=post)
+        if form.is_valid():
+            form.save()
+            messages.success(request, "Post updated successfully!")
+            return redirect('user_own_post')
+    else:
+        form = PostForm(instance=post)
+    return render(request, 'user/edit_post.html', {'form': form, 'post': post})
+
+@login_required
 def toggle_like(request, post_id):
     post = get_object_or_404(Post, id=post_id)
     user = request.user
