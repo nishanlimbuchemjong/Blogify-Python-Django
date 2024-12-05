@@ -1,0 +1,14 @@
+{% extends 'admin/admin_base.html' %}
+
+{% block title %}Categories{% endblock %}
+
+{% block content %}
+    <h1>All Category</h1>
+    <ul>
+        {% for category in categories %}
+            <li><a href="{% url 'user_category_post' category.id %}">{{ category.name }}</a></li>
+        {% endfor %}
+    </ul>
+    <!-- Optionally, adding a back link to the landing page -->
+    <a href="{% url 'admin_home'%}" class="btn btn-secondary">Back</a>
+{% endblock %}

@@ -93,30 +93,19 @@ def Register(request):
     return render(request, 'signup.html', {'form': form})
 
 def UserCategoryList(request):
-    # Handle form submission
-    # if request.method == 'POST':
-    #     form = CategoryForm(request.POST)
-    #     if form.is_valid():
-    #         form.save()
-    #         messages.success(request, "Category added successfully!")
-    #         return redirect('user/user_category_list')
-    # else:
-    #     form = CategoryForm()
-
-    # Fetch all categories
     categories = Category.objects.all()
     return render(request, 'user/user_category_list.html', {'categories': categories})
 
-def AddCategory(request):
-    if request.method == 'POST':
-        form = CategoryForm(request.POST)
-        if form.is_valid():
-            form.save()
-            messages.success(request, "Category added successfully!")
-            return redirect('user/user_category_list')
-    else:
-        form = CategoryForm()
-    return render(request, 'user/user_add_category.html', { 'form': form})
+# def AddCategory(request):
+#     if request.method == 'POST':
+#         form = CategoryForm(request.POST)
+#         if form.is_valid():
+#             form.save()
+#             messages.success(request, "Category added successfully!")
+#             return redirect('admin_category_list')
+#     else:
+#         form = CategoryForm()
+#     return render(request, 'admin/user_add_category.html', { 'form': form})
 
 def UserCategoryPosts(request, category_id):
     # Get the category based on the ID
@@ -247,3 +236,18 @@ def post_comment(request, post_id):
             return JsonResponse({"error": "No content provided"}, status=400)
 
     return JsonResponse({"error": "Invalid request"}, status=400)
+
+def AdminCategoryList(request):
+    categories = Category.objects.all()
+    return render(request, 'admin/admin_category_list.html', {'categories': categories})
+
+def AddCategory(request):
+    if request.method == 'POST':
+        form = CategoryForm(request.POST)
+        if form.is_valid():
+            form.save()
+            messages.success(request, "Category added successfully!")
+            return redirect('admin_category_list')
+    else:
+        form = CategoryForm()
+    return render(request, 'admin/admin_add_category.html', { 'form': form})
