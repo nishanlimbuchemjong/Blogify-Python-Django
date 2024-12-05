@@ -117,6 +117,13 @@ def UserCategoryPosts(request, category_id):
     # Render the posts to the template
     return render(request, 'user_category_posts.html', {'category': category, 'posts': posts})
 
+
+@login_required
+def UserPosts(request):
+    # Filter posts created by the logged-in user
+    user_posts = Post.objects.filter(author=request.user)
+    return render(request, 'users_own_posts.html', {'user_posts': user_posts})
+
 @login_required
 def UserPostDetails(request, post_id):
     post = get_object_or_404(Post, id=post_id)
