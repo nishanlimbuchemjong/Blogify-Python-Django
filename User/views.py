@@ -94,6 +94,20 @@ def Register(request):
 
 def UserCategoryList(request):
     # Handle form submission
+    # if request.method == 'POST':
+    #     form = CategoryForm(request.POST)
+    #     if form.is_valid():
+    #         form.save()
+    #         messages.success(request, "Category added successfully!")
+    #         return redirect('user/user_category_list')
+    # else:
+    #     form = CategoryForm()
+
+    # Fetch all categories
+    categories = Category.objects.all()
+    return render(request, 'user/user_category_list.html', {'categories': categories})
+
+def AddCategory(request):
     if request.method == 'POST':
         form = CategoryForm(request.POST)
         if form.is_valid():
@@ -102,10 +116,7 @@ def UserCategoryList(request):
             return redirect('user/user_category_list')
     else:
         form = CategoryForm()
-
-    # Fetch all categories
-    categories = Category.objects.all()
-    return render(request, 'user/user_category_list.html', {'categories': categories, 'form': form})
+    return render(request, 'user/user_add_category.html', { 'form': form})
 
 def UserCategoryPosts(request, category_id):
     # Get the category based on the ID

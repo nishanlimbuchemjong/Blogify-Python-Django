@@ -4,12 +4,6 @@
 
 {% block content %}
     <h1>All Category</h1>
-    <!-- Form for adding a new category -->
-    <form method="POST" class="mb-4">
-        {% csrf_token %}
-        {{ form.as_p }}
-        <button type="submit" class="btn btn-primary">Add Category</button>
-    </form>
     <ul>
         {% for category in categories %}
             <li><a href="{% url 'user_category_post' category.id %}">{{ category.name }}</a></li>
