@@ -3,11 +3,11 @@
 {% block content %}
 <div class="container mt-5">
     <h1>Add Post</h1>
-    <form method="POST" enctype="multipart/form-data">
+    <form method="POST" enctype="multipart/form-data" class="mb-4">
         {% csrf_token %}
         {{ form.as_p }}
-        <button type="submit" class="btn btn-success">Add Post</button>
+        <button type="submit" class="btn btn-primary">Add Post</button>
     </form>
-    <a href="{% url 'user_own_post'%}" class="btn btn-secondary">Back</a>
+    <a href="{% url 'user_own_post' %}" class="btn btn-secondary">Back</a>
 </div>
 {% endblock %}

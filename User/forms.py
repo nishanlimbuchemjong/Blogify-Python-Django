@@ -47,3 +47,22 @@ class PostForm(forms.ModelForm):
     class Meta:
         model = Post
         fields = ['title', 'content', 'category']  # Include fields you want to manage
+        widgets = {
+            'title': forms.TextInput(attrs={
+                'class': 'form-control',
+                'placeholder': 'Enter the post title',
+            }),
+            'content': forms.Textarea(attrs={
+                'class': 'form-control',
+                'placeholder': 'Write your content here',
+                'rows': 6,
+            }),
+            'category': forms.Select(attrs={
+                'class': 'form-control',
+            }),
+        }
+        labels = {
+            'title': 'Post Title',
+            'content': 'Content',
+            'category': 'Category',
+        }
