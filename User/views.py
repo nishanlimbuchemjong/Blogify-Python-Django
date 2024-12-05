@@ -187,6 +187,15 @@ def EditPost(request, post_id):
     return render(request, 'user/edit_post.html', {'form': form, 'post': post})
 
 @login_required
+def DeletePost(request, post_id):
+    post = get_object_or_404(Post, id=post_id, author=request.user)
+    if request.method == 'POST':
+        post.delete()
+        messages.success(request, "Post deleted successfully!")
+        return redirect('user_own_post')
+    return render(request, 'user/delete_user_post.html', {'post': post})
+
+@login_required
 def toggle_like(request, post_id):
     post = get_object_or_404(Post, id=post_id)
     user = request.user

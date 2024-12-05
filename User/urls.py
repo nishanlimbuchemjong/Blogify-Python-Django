@@ -16,6 +16,7 @@ urlpatterns = [
     path('posts/', views.UserPosts, name='user_own_post'),
     path('posts/add/', views.AddPost, name='add_user_post'),
     path('posts/<int:post_id>/edit/', views.EditPost, name='edit_post'),
+    path('posts/<int:post_id>/delete/', views.DeletePost, name='delete_post'),
 
     # path('post/<int:post_id>/', views.UserPostDetails, name='user_post_detail'),
     path('post/<int:post_id>/', views.UserPostDetails, name='user_post_detail'),
