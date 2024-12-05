@@ -266,3 +266,34 @@ def AddCategory(request):
         form = CategoryForm()
     return render(request, 'admin/add_category_list.html', { 'form': form})
 
+# @login_required
+# def EditCategory(request, category_id):
+#     category = get_object_or_404(Category, id=category_id, author=request.user)  # Fetch Category, not Post
+#     if request.method == 'POST':
+#         form = CategoryForm(request.POST, instance=category)
+#         if form.is_valid():
+#             form.save()
+#             messages.success(request, "Category updated successfully!")
+#             return redirect('admin_category_list')
+#     else:
+#         form = CategoryForm(instance=category)
+#     return render(request, 'admin/edit_category.html', {'form': form, 'category': category})
+@login_required
+def EditCategory(request, category_id):
+    # Fetch the category using the provided ID
+    category = get_object_or_404(Category, id=category_id)
+
+    if request.method == 'POST':
+        # Create a form instance with the POST data and the category instance
+        form = CategoryForm(request.POST, instance=category)
+
+        if form.is_valid():
+            # Save the form if it's valid
+            form.save()
+            messages.success(request, "Category updated successfully!")
+            return redirect('admin_category_list')  # Redirect to category list after update
+    else:
+        # Pre-fill the form with the current category details
+        form = CategoryForm(instance=category)
+
+    return render(request, 'admin/edit_category.html', {'form': form, 'category': category})

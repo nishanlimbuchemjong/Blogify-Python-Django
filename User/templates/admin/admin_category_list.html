@@ -6,7 +6,7 @@
     <h1>All Category</h1>
     <ul>
         {% for category in categories %}
-            <li><a href="{% url 'admin_category_post' category.id %}">{{ category.name }}</a></li>
+            <li><a href="{% url 'admin_category_post' category.id %}">{{ category.name }}</a> <a href="{% url 'edit_category' category.id %}" class="btn btn-primary btn-sm">Edit</a></li>
         {% endfor %}
     </ul>
 
