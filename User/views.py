@@ -17,6 +17,7 @@ def AdminHome(request):
     categories = Category.objects.all()
     user = request.user
     print("user:", user)
+    print("categories:", categories)
     print("first_name: ", user.first_name)
     print("image: ", user.profile_picture)
     return render(request, 'admin/admin_home.html', {'posts': posts, 'categories': categories})
