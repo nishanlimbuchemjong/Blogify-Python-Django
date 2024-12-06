@@ -25,7 +25,7 @@ class RegisterForm(forms.Form):
 class CategoryForm(forms.ModelForm):
     class Meta:
         model = Category
-        fields = ['name', 'description']
+        fields = ['name', 'description', 'image']
         widgets = {
             'name': forms.TextInput(attrs={
                 'class': 'form-control',
@@ -36,10 +36,14 @@ class CategoryForm(forms.ModelForm):
                 'placeholder': 'Enter a brief description (optional)',
                 'rows': 4,
             }),
+            'image': forms.ClearableFileInput(attrs={
+                'class': 'form-control',
+            }),
         }
         labels = {
             'name': 'Category Name',
             'description': 'Description',
+            'image': 'Upload Image',
         }
 
 

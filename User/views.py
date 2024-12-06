@@ -265,7 +265,7 @@ def AdminCategoryPosts(request, category_id):
 
 def AddCategory(request):
     if request.method == 'POST':
-        form = CategoryForm(request.POST)
+        form = CategoryForm(request.POST, request.FILES)
         if form.is_valid():
             form.save()
             messages.success(request, "Category added successfully!")
@@ -281,7 +281,7 @@ def EditCategory(request, category_id):
 
     if request.method == 'POST':
         # Create a form instance with the POST data and the category instance
-        form = CategoryForm(request.POST, instance=category)
+        form = CategoryForm(request.POST, request.FILES, instance=category)
 
         if form.is_valid():
             # Save the form if it's valid
