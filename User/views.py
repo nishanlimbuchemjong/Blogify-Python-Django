@@ -374,3 +374,23 @@ def AdminDeletePost(request, post_id):
         return redirect('admin_own_post')
     return render(request, 'admin/delete_admin_post.html', {'post': post})
 
+@login_required
+def MyAccount(request):
+    user = request.user
+    user_posts = Post.objects.filter(author=user)
+
+    # Calculate total likes on user's posts
+    total_likes = sum(post.likes.count() for post in user_posts)
+
+    # Calculate total comments on user's posts
+    total_comments = Comment.objects.filter(post__author=user).count()
+
+    context = {
+        'user': user,
+        'total_posts': user_posts.count(),
+        'total_likes': total_likes,
+        'total_comments': total_comments,
+        'posts': user_posts,
+    }
+
+    return render(request, 'admin/my_account.html', context)

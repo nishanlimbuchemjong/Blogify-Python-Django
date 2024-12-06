@@ -40,6 +40,7 @@ urlpatterns = [
     path('posts/<int:post_id>/', views.AdminPostDetails, name='admin_post_detail'),
     path('post/<int:post_id>/edit/', views.AdminEditPost, name='admin_edit_post'),
     path('post/<int:post_id>/delete/', views.AdminDeletePost, name='admin_delete_post'),
+    path('my-account/', views.MyAccount, name='admin_my_account'),
 
 ]
 # Serve media files during development

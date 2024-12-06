@@ -1,0 +1,50 @@
+{% extends 'admin/admin_base.html' %}
+
+{% block title %}Categories{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <h1>My Account</h1>
+    <div class="card">
+        <div class="card-body">
+            <h5 class="card-title">User Details</h5>
+            <p><strong>Name:</strong> {{ user.first_name }} {{ user.last_name }}</p>
+            <p><strong>Email:</strong> {{ user.email }}</p>
+        </div>
+    </div>
+
+    <div class="mt-4">
+        <h5>Statistics</h5>
+        <ul class="list-group">
+            <li class="list-group-item">
+                <strong>Total Posts:</strong> {{ total_posts }}
+            </li>
+            <li class="list-group-item">
+                <strong>Total Likes on Posts:</strong> {{ total_likes }}
+            </li>
+            <li class="list-group-item">
+                <strong>Total Comments on Posts:</strong> {{ total_comments }}
+            </li>
+        </ul>
+    </div>
+
+    <div class="mt-4">
+        <h5>Your Posts</h5>
+        {% if posts %}
+            <ul class="list-group">
+                {% for post in posts %}
+                    <li class="list-group-item">
+                        <a href="{% url 'admin_post_detail' post.id %}">{{ post.title }}</a>
+                        - {{ post.likes.count }} Likes,
+                        {{ post.comments.count }} Comments
+                    </li>
+                {% endfor %}
+            </ul>
+        {% else %}
+            <p>You haven't created any posts yet.</p>
+        {% endif %}
+    </div>
+    <a href="{% url 'admin_home'%}" class="btn btn-secondary">Back</a>
+</div>
+
+{% endblock %}
