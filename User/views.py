@@ -146,6 +146,7 @@ def UserPostDetails(request, post_id):
         'user_like': user_like,
         'like_count': like_count,
     })
+
 @login_required
 def AddPost(request):
     if request.method == "POST":
@@ -302,3 +303,20 @@ def DeleteCategory(request, category_id):
 def AdminPosts(request):
     admin_posts = Post.objects.filter(author=request.user)
     return render(request, 'admin/admin_own_posts.html', {'admin_posts': admin_posts})
+
+
+@login_required
+def AdminAddPost(request):
+    if request.method == "POST":
+        form = PostForm(request.POST, request.FILES)
+        if form.is_valid():
+            post = form.save(commit=False)
+            post.author = request.user
+            post.save()
+            messages.success(request, "Post created successfully!")
+            return redirect('admin_own_post')  # Redirect to the user's posts list
+    else:
+        form = PostForm()
+
+    return render(request, 'admin/add_admin_post.html', {'form': form})
+
