@@ -4,7 +4,15 @@
 <div class="container mt-5">
     <h1>{{ post.title }}</h1>
     <p>Author: <b>{{post.author.first_name}} {{post.author.last_name}}</b><br>
-    <small>Published on {{ post.created_at }} <a href="{% url 'edit_post' post.id %}" class="btn btn-primary btn-sm">Edit</a> <a href="{% url 'delete_post' post.id %}" class="btn btn-danger btn-sm">Delete</a></small> </p>
+        <small>Published on {{ post.created_at }}
+            {% if user == post.author %}
+                <small>
+                    <a href="{% url 'edit_post' post.id %}" class="btn btn-primary btn-sm">Edit</a>
+                    <a href="{% url 'delete_post' post.id %}" class="btn btn-danger btn-sm">Delete</a>
+                </small>
+            {% endif %}
+        </small>
+    </p>
 
     <div class="post-content">
         <p>{{ post.content }}</p>
