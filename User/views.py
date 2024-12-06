@@ -358,5 +358,13 @@ def AdminEditPost(request, post_id):
     return render(request, 'admin/admin_edit_post.html', {'form': form, 'post': post})
 
 
+@login_required
+def AdminDeletePost(request, post_id):
+    post = get_object_or_404(Post, id=post_id, author=request.user)
+    if request.method == 'POST':
+        post.delete()
+        messages.success(request, "Post deleted successfully!")
+        return redirect('admin_own_post')
+    return render(request, 'admin/delete_admin_post.html', {'post': post})
 
 
