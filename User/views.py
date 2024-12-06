@@ -355,7 +355,7 @@ def AdminPostDetails(request, post_id):
 def AdminEditPost(request, post_id):
     post = get_object_or_404(Post, id=post_id, author=request.user)
     if request.method == 'POST':
-        form = PostForm(request.POST, instance=post)
+        form = PostForm(request.POST, request.FILES, instance=post)
         if form.is_valid():
             form.save()
             messages.success(request, "Post updated successfully!")

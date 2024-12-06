@@ -50,7 +50,7 @@ class CategoryForm(forms.ModelForm):
 class PostForm(forms.ModelForm):
     class Meta:
         model = Post
-        fields = ['title', 'content', 'category']  # Include fields you want to manage
+        fields = ['title', 'content', 'category', 'image']  # Include fields you want to manage
         widgets = {
             'title': forms.TextInput(attrs={
                 'class': 'form-control',
@@ -64,9 +64,13 @@ class PostForm(forms.ModelForm):
             'category': forms.Select(attrs={
                 'class': 'form-control',
             }),
+            'image': forms.ClearableFileInput(attrs={
+                'class': 'form-control',
+            }),
         }
         labels = {
             'title': 'Post Title',
             'content': 'Content',
             'category': 'Category',
+            'image': 'Upload Image',
         }
