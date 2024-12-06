@@ -15,7 +15,10 @@ def UserHome(request):
 def AdminHome(request):
     posts = Post.objects.all()
     categories = Category.objects.all()
-
+    user = request.user
+    print("user:", user)
+    print("first_name: ", user.first_name)
+    print("image: ", user.profile_picture)
     return render(request, 'admin/admin_home.html', {'posts': posts, 'categories': categories})
 
 # Create your views here.
@@ -369,5 +372,4 @@ def AdminDeletePost(request, post_id):
         messages.success(request, "Post deleted successfully!")
         return redirect('admin_own_post')
     return render(request, 'admin/delete_admin_post.html', {'post': post})
-
 
