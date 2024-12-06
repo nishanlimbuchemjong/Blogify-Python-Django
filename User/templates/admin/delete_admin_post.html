@@ -7,6 +7,6 @@
         {% csrf_token %}
         <button type="submit" class="btn btn-danger">Delete Post</button>
     </form>
-    <a href="{% url 'admin_own_post' %}" class="btn btn-secondary mt-2">Cancel</a>
+    <a href="{% url 'admin_post_detail' post.id%}" class="btn btn-secondary mt-2">Cancel</a>
 </div>
 {% endblock %}
