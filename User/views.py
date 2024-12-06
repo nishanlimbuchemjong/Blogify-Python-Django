@@ -266,18 +266,6 @@ def AddCategory(request):
         form = CategoryForm()
     return render(request, 'admin/add_category_list.html', { 'form': form})
 
-# @login_required
-# def EditCategory(request, category_id):
-#     category = get_object_or_404(Category, id=category_id, author=request.user)  # Fetch Category, not Post
-#     if request.method == 'POST':
-#         form = CategoryForm(request.POST, instance=category)
-#         if form.is_valid():
-#             form.save()
-#             messages.success(request, "Category updated successfully!")
-#             return redirect('admin_category_list')
-#     else:
-#         form = CategoryForm(instance=category)
-#     return render(request, 'admin/edit_category.html', {'form': form, 'category': category})
 @login_required
 def EditCategory(request, category_id):
     # Fetch the category using the provided ID
@@ -297,3 +285,15 @@ def EditCategory(request, category_id):
         form = CategoryForm(instance=category)
 
     return render(request, 'admin/edit_category.html', {'form': form, 'category': category})
+
+@login_required
+def DeleteCategory(request, category_id):
+    category = get_object_or_404(Category, id=category_id)
+
+    if request.method == 'POST':
+        # Delete the category
+        category.delete()
+        messages.success(request, "Category deleted successfully!")
+        return redirect('admin_category_list')  # Redirect to the category list after deletion
+
+    return render(request, 'admin/confirm_delete_category.html', {'category': category})

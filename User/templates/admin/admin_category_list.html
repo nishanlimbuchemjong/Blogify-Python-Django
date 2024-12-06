@@ -3,12 +3,30 @@
 {% block title %}Categories{% endblock %}
 
 {% block content %}
-    <h1>All Category</h1>
-    <ul>
-        {% for category in categories %}
-            <li><a href="{% url 'admin_category_post' category.id %}">{{ category.name }}</a> <a href="{% url 'edit_category' category.id %}" class="btn btn-primary btn-sm">Edit</a></li>
-        {% endfor %}
-    </ul>
+<h1>All Categories</h1>
+<div class="container mt-5">
 
-    <a href="{% url 'admin_home'%}" class="btn btn-secondary">Back</a>
+    {% if categories %}
+        <div class="list-group">
+            {% for category in categories %}
+                <div class="list-group-item d-flex justify-content-between align-items-center">
+                    <!-- Category Name with Buttons -->
+                    <div class="d-flex align-items-center">
+                        <h5 class="mb-0 me-3">{{ category.name }}</h5>
+                        <a href="{% url 'edit_category' category.id %}" class="btn btn-sm btn-primary me-2">Edit</a>
+                        <a href="{% url 'delete_category' category.id %}" class="btn btn-sm btn-danger">Delete</a>
+                    </div>
+                </div>
+                <div class="list-group-item d-flex justify-content-between align-items-center">
+                    <p>{{category.description}}</p>
+                </div>
+                <br>
+            {% endfor %}
+        </div>
+
+        <a href="{% url 'admin_home' %}" class="btn btn-secondary mt-3">Back</a>
+    {% else %}
+        <p>No categories available.</p>
+    {% endif %}
+</div>
 {% endblock %}
