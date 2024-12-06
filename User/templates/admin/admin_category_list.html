@@ -12,7 +12,7 @@
                 <div class="list-group-item d-flex justify-content-between align-items-center">
                     <!-- Category Name with Buttons -->
                     <div class="d-flex align-items-center">
-                        <h5 class="mb-0 me-3">{{ category.name }}</h5>
+                        <h5 class="mb-0 me-3"><a href="{% url 'admin_category_post' category.id %}">{{ category.name }}</a></h5>
                         <a href="{% url 'edit_category' category.id %}" class="btn btn-sm btn-primary me-2">Edit</a>
                         <a href="{% url 'delete_category' category.id %}" class="btn btn-sm btn-danger">Delete</a>
                     </div>

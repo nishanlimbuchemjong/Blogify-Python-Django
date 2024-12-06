@@ -344,3 +344,19 @@ def AdminPostDetails(request, post_id):
         'like_count': like_count,
     })
 
+@login_required
+def AdminEditPost(request, post_id):
+    post = get_object_or_404(Post, id=post_id, author=request.user)
+    if request.method == 'POST':
+        form = PostForm(request.POST, instance=post)
+        if form.is_valid():
+            form.save()
+            messages.success(request, "Post updated successfully!")
+            return redirect('admin_post_detail', post_id=post.id)
+    else:
+        form = PostForm(instance=post)
+    return render(request, 'admin/admin_edit_post.html', {'form': form, 'post': post})
+
+
+
+

@@ -36,4 +36,5 @@ urlpatterns = [
     path('post/', views.AdminPosts, name='admin_own_post'),
     path('post/add/', views.AdminAddPost, name='add_admin_post'),
     path('posts/<int:post_id>/', views.AdminPostDetails, name='admin_post_detail'),
+    path('post/<int:post_id>/edit/', views.AdminEditPost, name='admin_edit_post'),
 ]
