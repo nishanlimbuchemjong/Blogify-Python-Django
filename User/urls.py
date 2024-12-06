@@ -21,6 +21,7 @@ urlpatterns = [
     # path('post/<int:post_id>/', views.UserPostDetails, name='user_post_detail'),
     path('post/<int:post_id>/', views.UserPostDetails, name='user_post_detail'),
 
+
     path('like/<int:post_id>/', views.toggle_like, name='toggle_like'),
     path('comment/<int:post_id>/', views.post_comment, name='post_comment'),
 
@@ -34,4 +35,5 @@ urlpatterns = [
 
     path('post/', views.AdminPosts, name='admin_own_post'),
     path('post/add/', views.AdminAddPost, name='add_admin_post'),
+    path('posts/<int:post_id>/', views.AdminPostDetails, name='admin_post_detail'),
 ]

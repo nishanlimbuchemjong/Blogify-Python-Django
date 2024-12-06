@@ -320,3 +320,27 @@ def AdminAddPost(request):
 
     return render(request, 'admin/add_admin_post.html', {'form': form})
 
+
+@login_required
+def AdminPostDetails(request, post_id):
+    post = get_object_or_404(Post, id=post_id)
+
+    if request.method == 'POST':
+        content = request.POST.get('content')
+        if content:
+            Comment.objects.create(post=post, author=request.user, content=content)
+
+    # Fetch all comments for the post
+    comments = post.comments.all()
+
+    # Fetch like status
+    user_like = post.likes.filter(user=request.user, is_like=True).exists()
+    like_count = post.likes.filter(is_like=True).count()
+
+    return render(request, 'admin/admin_post_detail.html', {
+        'post': post,
+        'comments': comments,
+        'user_like': user_like,
+        'like_count': like_count,
+    })
+
