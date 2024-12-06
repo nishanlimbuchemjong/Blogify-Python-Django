@@ -128,3 +128,11 @@ STATIC_URL = 'static/'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 LOGIN_URL = 'login'
+
+
+# The URL to access media files
+MEDIA_URL = '/media/'
+
+# The path where media files will be saved on your file system
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+

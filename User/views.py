@@ -13,7 +13,10 @@ def UserHome(request):
     return render(request, 'user/user_home.html')
 
 def AdminHome(request):
-    return render(request, 'admin/admin_home.html')
+    posts = Post.objects.all()
+    categories = Category.objects.all()
+
+    return render(request, 'admin/admin_home.html', {'posts': posts, 'categories': categories})
 
 # Create your views here.
 def Login(request):

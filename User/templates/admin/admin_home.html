@@ -7,5 +7,66 @@
     <h1>Welcome to Admin Home</h1>
     <p>Discover and share amazing blog posts.</p>
 
+    <h2>All Posts</h2>
+    <div class="row row-cols-2 g-4">  <!-- Changed to row-cols-1 for one post per row -->
+        {% for post in posts %}
+            <div class="col">
+                <div class="card h-100">
+                    <img src="{{post.image.url}}" class="card-img-top" alt="{{ post.title }}">
+                    <div class="card-body">
+                        <!-- Align the title to the left -->
+                        <h5 class="card-title text-start">{{ post.title }}</h5>  <!-- Added 'text-start' for left alignment -->
+                        <p class="card-text">{{ post.description|truncatewords:20 }}</p>  <!-- Truncate to 20 words -->
+
+                        <p class="small text-muted text-start">By {{ post.author.first_name }} {{ post.author.last_name }} on {{ post.created_at }}</p>
+                        <p class="card-text text-start">{{ post.content|truncatewords:20 }}...</p>
+
+                    </div>
+                    <div class="card-footer">
+                        <p class="text-muted"><strong>Likes:</strong> {{ post.likes.count }} | <strong>Comments:</strong> {{ post.comments.count }}</p>
+                        <a href="{% url 'admin_post_detail' post.id %}" class="btn btn-primary btn-sm">View Post</a>
+                    </div>
+                </div>
+            </div>
+        {% empty %}
+            <div class="col">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">No Posts Available</h5>
+                        <p class="card-text">There are no posts to display.</p>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+
+    <h2 class="mt-5">All Categories</h2>
+    <div class="row row-cols-1 row-cols-md-3 g-4">
+        {% for category in categories %}
+            <div class="col">
+                <div class="card h-100">
+                    <!-- Show category-specific image based on the category name -->
+                    <img src="{{ category.image.url}}" class="card-img-top" alt="{{ category.name }}">
+                    <div class="card-body">
+                        <h5 class="card-title">{{ category.name }}</h5>
+                        <p class="card-text">{{ category.description }}</p>
+                    </div>
+                    <div class="card-footer">
+                        <a href="{% url 'admin_category_post' category.id %}" class="btn btn-primary btn-sm">View Posts</a>
+                    </div>
+                </div>
+            </div>
+        {% empty %}
+            <div class="col">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">No Categories Available</h5>
+                        <p class="card-text">There are no categories to display.</p>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+
 </div>
 {% endblock %}

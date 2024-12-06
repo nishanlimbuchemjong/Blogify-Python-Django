@@ -1,4 +1,7 @@
 from django.urls import path
+from django.conf import settings
+from django.conf.urls.static import static
+
 from . import views
 
 urlpatterns = [
@@ -14,3 +17,7 @@ urlpatterns = [
     # path('post/<int:post_id>/like/', views.toggle_like, name='post_like'),
     path('post/<int:post_id>/comment/', views.add_comment, name='post_comment'),
 ]
+
+# Serve media files during development
+if settings.DEBUG:
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
