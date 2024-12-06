@@ -31,4 +31,6 @@ urlpatterns = [
     path('categories/<int:category_id>/', views.AdminCategoryPosts, name='admin_category_post'),
     path('categories/<int:category_id>/edit/', views.EditCategory, name='edit_category'),
     path('categories/<int:category_id>/delete/', views.DeleteCategory, name='delete_category'),
+
+    path('post/', views.AdminPosts, name='admin_own_post'),
 ]

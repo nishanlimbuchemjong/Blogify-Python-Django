@@ -297,3 +297,8 @@ def DeleteCategory(request, category_id):
         return redirect('admin_category_list')  # Redirect to the category list after deletion
 
     return render(request, 'admin/confirm_delete_category.html', {'category': category})
+
+@login_required
+def AdminPosts(request):
+    admin_posts = Post.objects.filter(author=request.user)
+    return render(request, 'admin/admin_own_posts.html', {'admin_posts': admin_posts})
