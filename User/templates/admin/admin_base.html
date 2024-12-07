@@ -50,9 +50,9 @@
                     <li class="nav-item">
                         <a class="nav-link" href="{% url 'admin_my_account' %}">My Account</a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">Contact</a>
-                    </li>
+<!--                    <li class="nav-item">-->
+<!--                        <a class="nav-link" href="#">Contact</a>-->
+<!--                    </li>-->
 
 
                 </ul>
@@ -64,7 +64,7 @@
                     <img src="{{ request.user.profile_picture.url }}" alt="Profile" class="rounded-circle" width="30" height="30">
                 </a>
                 <ul class="dropdown-menu" aria-labelledby="profileDropdown">
-                    <li><a class="dropdown-item" href="#">Edit Profile</a></li>
+                    <li><a class="dropdown-item" href="{% url 'edit_user_profile' user.id%}">Edit Profile</a></li>
                     <li><a class="dropdown-item" href="{% url 'logout' %}">Logout</a></li>
                 </ul>
             </div>

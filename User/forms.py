@@ -1,5 +1,6 @@
 from django import forms
 from blog.models import Category, Post
+from .models import CustomUser
 
 class LoginForm(forms.Form):
     email = forms.EmailField(widget=forms.EmailInput(attrs={'placeholder': 'Email', 'class': 'form-control'}))
@@ -74,3 +75,51 @@ class PostForm(forms.ModelForm):
             'category': 'Category',
             'image': 'Upload Image',
         }
+
+class EditUserProfileForm(forms.ModelForm):
+    new_password = forms.CharField(
+        required=False,
+        widget=forms.PasswordInput(attrs={
+            'class': 'form-control',
+            'placeholder': 'Enter New Password (leave blank to keep current)',
+        }),
+        label='New Password'
+    )
+
+    class Meta:
+        model = CustomUser
+        fields = ['first_name', 'last_name', 'email']
+        widgets = {
+            'first_name': forms.TextInput(attrs={
+                'class': 'form-control',
+                'placeholder': 'Enter First Name',
+            }),
+            'last_name': forms.TextInput(attrs={
+                'class': 'form-control',
+                'placeholder': 'Enter Last Name',
+            }),
+            'email': forms.EmailInput(attrs={
+                'class': 'form-control',
+                'placeholder': 'Enter Email',
+            }),
+
+        }
+        labels = {
+            'first_name': 'First Name',
+            'last_name': 'Last Name',
+            'email': 'Email Address',
+        }
+
+    def save(self, commit=True):
+        user = super().save(commit=False)
+        if self.cleaned_data.get('new_password'):
+            user.password = make_password(self.cleaned_data['new_password'])
+        if commit:
+            user.save()
+        return user
+
+    def clean_new_password(self):
+        password = self.cleaned_data.get('new_password')
+        if password and len(password) < 8:
+            raise ValidationError("Password must be at least 8 characters long.")
+        return password

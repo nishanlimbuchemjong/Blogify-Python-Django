@@ -6,7 +6,7 @@ from django.shortcuts import get_object_or_404, redirect
 from .models import CustomUser
 from blog.models import Post, Like, Category, Comment
 from django.contrib.auth.decorators import login_required
-from .forms import CategoryForm
+from .forms import CategoryForm, EditUserProfileForm
 from django.http import JsonResponse
 
 def UserHome(request):
@@ -394,3 +394,18 @@ def MyAccount(request):
     }
 
     return render(request, 'admin/my_account.html', context)
+
+@login_required
+def EditUserProfile(request, user_id):
+    user = get_object_or_404(CustomUser, id=user_id)
+
+    if request.method == 'POST':
+        form = EditUserProfileForm(request.POST, instance=user)
+        if form.is_valid():
+            form.save()
+            messages.success(request, f"{user.first_name}'s profile updated successfully!")
+            return redirect('admin_my_account')
+    else:
+        form = EditUserProfileForm(instance=user)
+
+    return render(request, 'admin/edit_user_profile.html', {'form': form, 'user': user})

@@ -41,7 +41,7 @@ urlpatterns = [
     path('post/<int:post_id>/edit/', views.AdminEditPost, name='admin_edit_post'),
     path('post/<int:post_id>/delete/', views.AdminDeletePost, name='admin_delete_post'),
     path('my-account/', views.MyAccount, name='admin_my_account'),
-
+    path('admin/edit-user/<int:user_id>/', views.EditUserProfile, name='edit_user_profile'),
 ]
 # Serve media files during development
 if settings.DEBUG:
