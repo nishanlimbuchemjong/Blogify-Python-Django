@@ -99,6 +99,21 @@ def Register(request):
 
     return render(request, 'signup.html', {'form': form})
 
+@login_required
+def EditUserProfile(request, user_id):
+    user = get_object_or_404(CustomUser, id=user_id)
+
+    if request.method == 'POST':
+        form = EditUserProfileForm(request.POST, instance=user)
+        if form.is_valid():
+            form.save()
+            messages.success(request, f"{user.first_name}'s profile updated successfully!")
+            return redirect('user_home')
+    else:
+        form = EditUserProfileForm(instance=user)
+
+    return render(request, 'user/edit_user_profile.html', {'form': form, 'user': user})
+
 def UserCategoryList(request):
     categories = Category.objects.all()
     return render(request, 'user/user_category_list.html', {'categories': categories})
@@ -396,7 +411,7 @@ def MyAccount(request):
     return render(request, 'admin/my_account.html', context)
 
 @login_required
-def EditUserProfile(request, user_id):
+def EditAdminProfile(request, user_id):
     user = get_object_or_404(CustomUser, id=user_id)
 
     if request.method == 'POST':

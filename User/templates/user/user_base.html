@@ -23,7 +23,7 @@
     <nav class="navbar navbar-expand-lg navbar-light" style="background-color:#7676762e;">
         <div class="container-fluid navbar-container">  <!-- Container to control the margins -->
             <!-- Blogify Logo aligned to the left -->
-            <a class="navbar-brand" href="{% url 'admin_home' %}"><b>Blogify</b></a>
+            <a class="navbar-brand" href="{% url 'user_home' %}"><b>Blogify</b></a>
 
             <!-- Navbar Items -->
             <div class="collapse navbar-collapse" id="navbarNav">
@@ -42,9 +42,9 @@
                         </ul>
                     </li>
 
-                    <li class="nav-item">
-                        <a class="nav-link" href="{% url 'logout' %}">Logout</a>
-                    </li>
+<!--                    <li class="nav-item">-->
+<!--                        <a class="nav-link" href="{% url 'logout' %}">Logout</a>-->
+<!--                    </li>-->
                 </ul>
             </div>
             <!-- Profile Dropdown -->
@@ -54,7 +54,7 @@
                     <img src="{#" alt="Profile" class="rounded-circle" width="30" height="30">
                 </a>
                 <ul class="dropdown-menu" aria-labelledby="profileDropdown">
-                    <li><a class="dropdown-item" href="#">Edit Profile</a></li>
+                    <li><a class="dropdown-item" href="{% url 'edit_user_profile' user.id %}">Edit Profile</a></li>
                     <li><a class="dropdown-item" href="#">Logout</a></li>
                 </ul>
             </div>

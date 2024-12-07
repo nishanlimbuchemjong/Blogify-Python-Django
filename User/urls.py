@@ -11,6 +11,7 @@ urlpatterns = [
 
     # User urls
     path('user_home/', views.UserHome, name='user_home'),
+    path('user/edit-user/<int:user_id>/', views.EditUserProfile, name='edit_user_profile'),
 
     path('category/<int:category_id>/', views.UserCategoryPosts, name='user_category_post'),
     path('category/', views.UserCategoryList, name='user_category_list'),
@@ -41,7 +42,7 @@ urlpatterns = [
     path('post/<int:post_id>/edit/', views.AdminEditPost, name='admin_edit_post'),
     path('post/<int:post_id>/delete/', views.AdminDeletePost, name='admin_delete_post'),
     path('my-account/', views.MyAccount, name='admin_my_account'),
-    path('admin/edit-user/<int:user_id>/', views.EditUserProfile, name='edit_user_profile'),
+    path('admin/edit-user/<int:user_id>/', views.EditAdminProfile, name='edit_admin_profile'),
 ]
 # Serve media files during development
 if settings.DEBUG:
