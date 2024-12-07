@@ -9,18 +9,13 @@ from django.contrib.auth.decorators import login_required
 from .forms import CategoryForm, EditUserProfileForm
 from django.http import JsonResponse
 
-def UserHome(request):
-    return render(request, 'user/user_home.html')
 
-def AdminHome(request):
+# functions related to User
+def UserHome(request):
     posts = Post.objects.all()
     categories = Category.objects.all()
-    user = request.user
-    print("user:", user)
-    print("categories:", categories)
-    print("first_name: ", user.first_name)
-    print("image: ", user.profile_picture)
-    return render(request, 'admin/admin_home.html', {'posts': posts, 'categories': categories})
+
+    return render(request, 'user/user_home.html', {'posts': posts, 'categories': categories})
 
 # Create your views here.
 def Login(request):
@@ -265,6 +260,15 @@ def post_comment(request, post_id):
 
 
 # functions related to Admin
+def AdminHome(request):
+    posts = Post.objects.all()
+    categories = Category.objects.all()
+    user = request.user
+    print("user:", user)
+    print("categories:", categories)
+    print("first_name: ", user.first_name)
+    print("image: ", user.profile_picture)
+    return render(request, 'admin/admin_home.html', {'posts': posts, 'categories': categories})
 
 def AdminCategoryList(request):
     categories = Category.objects.all()
