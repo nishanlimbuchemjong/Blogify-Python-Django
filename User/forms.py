@@ -1,6 +1,8 @@
 from django import forms
 from blog.models import Category, Post
 from .models import CustomUser
+from django.core.exceptions import ValidationError
+from django.contrib.auth.hashers import make_password
 
 class LoginForm(forms.Form):
     email = forms.EmailField(widget=forms.EmailInput(attrs={'placeholder': 'Email', 'class': 'form-control'}))
@@ -85,10 +87,16 @@ class EditUserProfileForm(forms.ModelForm):
         }),
         label='New Password'
     )
-
+    profile_picture = forms.ImageField(
+        required=False,
+        widget=forms.ClearableFileInput(attrs={
+            'class': 'form-control',
+        }),
+        label='Profile Picture'
+    )
     class Meta:
         model = CustomUser
-        fields = ['first_name', 'last_name', 'email']
+        fields = ['first_name', 'last_name', 'email', 'profile_picture']
         widgets = {
             'first_name': forms.TextInput(attrs={
                 'class': 'form-control',

@@ -51,11 +51,11 @@
             <div class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle" href="#" id="profileDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                     <!-- Display profile picture -->
-                    <img src="{#" alt="Profile" class="rounded-circle" width="30" height="30">
+                    <img src="{{ request.user.profile_picture.url}}" alt="Profile" class="rounded-circle" width="30" height="30">
                 </a>
                 <ul class="dropdown-menu" aria-labelledby="profileDropdown">
                     <li><a class="dropdown-item" href="{% url 'edit_user_profile' user.id %}">Edit Profile</a></li>
-                    <li><a class="dropdown-item" href="#">Logout</a></li>
+                    <li><a class="dropdown-item" href="{% url 'logout' %}">Logout</a></li>
                 </ul>
             </div>
         </div>

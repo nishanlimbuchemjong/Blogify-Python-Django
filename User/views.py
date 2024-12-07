@@ -99,7 +99,7 @@ def EditUserProfile(request, user_id):
     user = get_object_or_404(CustomUser, id=user_id)
 
     if request.method == 'POST':
-        form = EditUserProfileForm(request.POST, instance=user)
+        form = EditUserProfileForm(request.POST, request.FILES, instance=user)
         if form.is_valid():
             form.save()
             messages.success(request, f"{user.first_name}'s profile updated successfully!")
@@ -422,7 +422,7 @@ def EditAdminProfile(request, user_id):
     user = get_object_or_404(CustomUser, id=user_id)
 
     if request.method == 'POST':
-        form = EditUserProfileForm(request.POST, instance=user)
+        form = EditUserProfileForm(request.POST, request.FILES,  instance=user)
         if form.is_valid():
             form.save()
             messages.success(request, f"{user.first_name}'s profile updated successfully!")
