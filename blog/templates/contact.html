@@ -1,0 +1,44 @@
+{% extends 'blog_base.html' %}
+
+{% block title %}Contact Us | Blogify{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="row justify-content-center align-items-center">
+        <!-- Left Section: Image -->
+        <div class="col-md-4">
+            <img src="/media/contact_image.jpeg" alt="Contact Us Image" class="img-fluid rounded shadow-sm" style="    height: 517px;">
+        </div>
+
+        <!-- Right Section: Contact Form -->
+        <div class="col-md-8">
+            <div class="card shadow-sm border-0">
+                <div class="card-header text-center bg-dark" style="color: white; border-radius: 5px;">
+                    <h3>Contact Us</h3>
+                    <p>We’d love to hear from you. Drop us a message!</p>
+                </div>
+                <div class="card-body">
+                    <form method="POST" action="{% url 'contact_page' %}">
+                        {% csrf_token %}
+
+                        <div class="mb-3">
+                            <label for="email" class="form-label">Your Email</label>
+                            <input type="email" class="form-control" id="email" name="email" placeholder="Enter your email" required>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="description" class="form-label">Your Message</label>
+                            <textarea class="form-control" id="description" name="description" rows="8" placeholder="Enter your message" required></textarea>
+                        </div>
+
+                        <div class="d-grid">
+                            <button type="submit" class="btn btn-outline-primary btn-lg">Send Message</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<br><br>
+{% endblock %}

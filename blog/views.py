@@ -8,6 +8,8 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth import authenticate, login
 from django.contrib import messages
 import json
+from django.core.mail import send_mail
+from django.conf import settings
 
 def LandingPage(request):
     posts = Post.objects.all()
@@ -22,6 +24,24 @@ def AboutPage(request):
         'total_users': total_users,
         'total_posts': total_posts,
     })
+
+def ContactPage(request):
+    if request.method == 'POST':
+        email = request.POST['email']
+        description = request.POST['description']
+
+        # Logic to send the email (using Django's built-in send_mail)
+        send_mail(
+            'New Contact Us Message',
+            f'From: {email}\nMessage: {description}',
+            settings.DEFAULT_FROM_EMAIL,  # Make sure to set up a default email in settings.py
+            ['contact@blogify.com'],
+            fail_silently=False,
+        )
+
+        return HttpResponse('Thank you for reaching out! We will get back to you soon.', status=200)
+
+    return render(request, 'contact.html')
 
 def AllPosts(request):
     posts = Post.objects.all()

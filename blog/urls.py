@@ -8,6 +8,8 @@ urlpatterns = [
     # Other URL patterns
     path('', views.LandingPage, name='landing_page'),
     path('about/', views.AboutPage, name='about'),
+    path('contact/', views.ContactPage, name='contact_page'),
+
     path('category/<int:category_id>/', views.CategoryPosts, name='category_post'),
     path('category/', views.CategoryList, name='category_list'),
     path('post/', views.AllPosts, name='all_posts'),
