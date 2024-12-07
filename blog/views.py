@@ -1,6 +1,8 @@
 from django.shortcuts import get_object_or_404, redirect
 from django.http import HttpResponse, JsonResponse
 from django.shortcuts import render
+
+from User.models import CustomUser
 from .models import Post, Like, Category, Comment
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import authenticate, login
@@ -11,6 +13,15 @@ def LandingPage(request):
     posts = Post.objects.all()
     # latest_post = Post.objects.order_by('-created_at')
     return render(request, 'landing_page.html', {'posts':posts})
+
+def AboutPage(request):
+    total_users = CustomUser.objects.count()  # Get total number of users
+    total_posts = Post.objects.count()  # Get total number of posts
+
+    return render(request, 'about_page.html', {
+        'total_users': total_users,
+        'total_posts': total_posts,
+    })
 
 def AllPosts(request):
     posts = Post.objects.all()

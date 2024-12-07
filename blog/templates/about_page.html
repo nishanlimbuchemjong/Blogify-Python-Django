@@ -1,0 +1,63 @@
+{% extends 'blog_base.html' %}
+
+{% block title %}About Blogify{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="row">
+        <!-- Left Side: About Blogify Information -->
+        <div class="col-md-6">
+            <h2>About Blogify</h2>
+            <p class="lead" style="text-align: justify;">
+                Blogify is a dynamic platform where users can create and share their stories, ideas, and experiences with the world. Whether you're a budding writer or an expert in your field, Blogify provides the tools and the community to help your voice be heard. Our platform empowers users to express themselves, learn from others, and build connections.
+            </p>
+            <p style="text-align: justify;">
+                With a growing number of active users and engaging content, Blogify is quickly becoming one of the most popular platforms for personal expression and discovery. Join us today and be part of a global community of creators and thinkers!
+            </p>
+            <p style="text-align: justify;">
+                At Blogify, we believe in the power of words. Our mission is to provide a seamless and enjoyable blogging experience for creators of all types. From personal reflections to professional insights, Blogify helps you share your voice in an intuitive way. Whether you’re writing about your passions, your expertise, or just for fun, Blogify is here to help you connect with a diverse and engaged audience.
+            </p>
+            <p style="text-align: justify;">
+                Our community is composed of writers, thinkers, and doers from around the world. Every day, new posts are shared on Blogify that inspire, educate, and entertain. Our platform is not just about writing; it’s about building a community where everyone can learn, grow, and discover new perspectives. Together, we are shaping the future of blogging.
+            </p>
+        </div>
+
+        <!-- Right Side: Statistics and Popularity -->
+        <div class="col-md-6">
+            <h3>Our Popularity</h3>
+            <div class="row">
+                <!-- Total Users -->
+                <div class="col-md-6 mb-4">
+                    <div class="card text-white bg-dark">
+                        <div class="card-body text-center">
+                            <h4>Total Users</h4>
+                            <p class="display-4">
+                                {{ total_users }}
+                            </p>
+                            <p>Blogify is rapidly growing with thousands of users joining every month!</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Total Posts -->
+                <div class="col-md-6 mb-4">
+                    <div class="card text-white bg-primary">
+                        <div class="card-body text-center">
+                            <h4>Total Posts</h4>
+                            <p class="display-4">
+                                {{ total_posts }}
+                            </p>
+                            <p>Our users have shared incredible stories, with posts covering various topics and industries!</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- CTA Section -->
+            <div class="text-center mt-4">
+                <a href="{% url 'signup' %}" class="btn btn-primary btn-lg">Join Blogify Now</a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
