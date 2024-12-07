@@ -8,7 +8,9 @@ from django.contrib import messages
 import json
 
 def LandingPage(request):
-    return render(request, 'landing_page.html')
+    posts = Post.objects.all()
+    # latest_post = Post.objects.order_by('-created_at')
+    return render(request, 'landing_page.html', {'posts':posts})
 
 def AllPosts(request):
     posts = Post.objects.all()
