@@ -12,6 +12,7 @@ urlpatterns = [
     # User urls
     path('user_home/', views.UserHome, name='user_home'),
     path('user/edit-user/<int:user_id>/', views.EditUserProfile, name='edit_user_profile'),
+    path('my_account/', views.UserAccount, name='user_account'),
 
     path('category/<int:category_id>/', views.UserCategoryPosts, name='user_category_post'),
     path('category/', views.UserCategoryList, name='user_category_list'),

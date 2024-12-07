@@ -1,4 +1,4 @@
-{% extends 'admin/admin_base.html' %}
+{% extends 'user/user_base.html' %}
 
 {% block title %}My Account{% endblock %}
 
@@ -34,7 +34,7 @@
             <ul class="list-group">
                 {% for post in posts %}
                     <li class="list-group-item">
-                        <a href="{% url 'admin_post_detail' post.id %}">{{ post.title }}</a>
+                        <a href="{% url 'user_post_detail' post.id %}">{{ post.title }}</a>
                         - {{ post.likes.count }} Likes,
                         {{ post.comments.count }} Comments
                     </li>
@@ -44,7 +44,7 @@
             <p>You haven't created any posts yet.</p>
         {% endif %}
     </div>
-    <a href="{% url 'admin_home'%}" class="btn btn-secondary">Back</a>
+    <a href="{% url 'user_home'%}" class="btn btn-secondary">Back</a>
 </div>
 
 {% endblock %}

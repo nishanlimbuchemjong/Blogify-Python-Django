@@ -109,6 +109,27 @@ def EditUserProfile(request, user_id):
 
     return render(request, 'user/edit_user_profile.html', {'form': form, 'user': user})
 
+@login_required
+def UserAccount(request):
+    user = request.user
+    user_posts = Post.objects.filter(author=user)
+
+    # Calculate total likes on user's posts
+    total_likes = sum(post.likes.count() for post in user_posts)
+
+    # Calculate total comments on user's posts
+    total_comments = Comment.objects.filter(post__author=user).count()
+
+    context = {
+        'user': user,
+        'total_posts': user_posts.count(),
+        'total_likes': total_likes,
+        'total_comments': total_comments,
+        'posts': user_posts,
+    }
+
+    return render(request, 'user/user_account.html', context)
+
 def UserCategoryList(request):
     categories = Category.objects.all()
     return render(request, 'user/user_category_list.html', {'categories': categories})

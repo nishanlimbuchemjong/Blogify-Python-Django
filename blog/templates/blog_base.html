@@ -1,3 +1,5 @@
+
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -5,29 +7,45 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{% block title %}Welcome to Blogify{% endblock %}</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        /* Ensure the navbar has the same left and right margins as the content */
+        .navbar-container {
+            margin-left: 5.5rem;  /* Adjust this to match the left margin of the content */
+            margin-right: 5.5rem;  /* Adjust this to match the right margin of the content */
+        }
+        .navbar-nav {
+            display: flex;
+            justify-content: center;
+            width: 100%;
+        }
+    </style>
 </head>
 <body>
     <!-- Navbar -->
-    <nav class="navbar navbar-expand-lg navbar-light bg-light">
-        <a class="navbar-brand" href="{% url 'landing_page' %}">Blogify</a>
-        <div class="collapse navbar-collapse" id="navbarNav">
-            <ul class="navbar-nav ml-auto">
-                <li class="nav-item">
-                    <a class="nav-link" href="{% url 'category_list' %}">Category</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="{% url 'all_posts' %}">Post</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#">Contact</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="{% url 'login' %}">Login</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="{% url 'signup' %}">Signup</a>
-                </li>
-            </ul>
+    <nav class="navbar navbar-expand-lg navbar-light" style="background-color:#7676762e;">
+        <div class="container-fluid navbar-container">  <!-- Container to control the margins -->
+            <!-- Blogify Logo aligned to the left -->
+            <a class="navbar-brand" href="{% url 'landing_page' %}"><b>Blogify</b></a>
+
+            <!-- Navbar Items -->
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'category_list' %}">Category</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'all_posts' %}">Post</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Contact</a>
+                    </li>
+
+                </ul>
+            </div>
+            <div>
+                <a class="nav-link" href="{% url 'login' %}">Login</a><a class="nav-link" href="{% url 'signup' %}">Signup</a>
+            </div>
+
         </div>
     </nav>
 
@@ -37,12 +55,13 @@
         {% endblock %}
     </div>
 
-    <!-- Footer -->
-    <footer class="bg-light py-4">
+   <!-- Footer -->
+    <footer class="py-3" style="background-color:#7676762e;">
         <div class="container text-center">
             <p>&copy; 2024 Blogify. All rights reserved.</p>
         </div>
     </footer>
+
 
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.min.js"></script>
