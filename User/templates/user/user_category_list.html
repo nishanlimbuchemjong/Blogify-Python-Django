@@ -3,12 +3,30 @@
 {% block title %}Categories{% endblock %}
 
 {% block content %}
-    <h1>All Category</h1>
-    <ul>
-        {% for category in categories %}
-            <li><a href="{% url 'user_category_post' category.id %}">{{ category.name }}</a></li>
-        {% endfor %}
-    </ul>
-    <!-- Optionally, adding a back link to the landing page -->
-    <a href="{% url 'user_home'%}" class="btn btn-secondary">Back</a>
+<h1>All Categories</h1>
+<div class="container mt-5">
+
+    {% if categories %}
+        <div class="list-group">
+            {% for category in categories %}
+                <div class="list-group-item d-flex justify-content-between align-items-center">
+                    <!-- Category Name with Buttons -->
+                    <div class="d-flex align-items-center">
+                        <h5 class="mb-0 me-3"><a href="{% url 'user_category_post' category.id %}">{{ category.name }}</a></h5>
+
+                    </div>
+                </div>
+                <div class="list-group-item d-flex justify-content-between align-items-center">
+                    <p>{{category.description}}</p>
+                </div>
+                <br>
+            {% endfor %}
+        </div>
+
+        <a href="{% url 'user_home' %}" class="btn btn-secondary mt-3">Back</a>
+    {% else %}
+        <p>No categories available.</p>
+    {% endif %}
+</div>
 {% endblock %}
+

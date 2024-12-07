@@ -261,6 +261,9 @@ def post_comment(request, post_id):
     return JsonResponse({"error": "Invalid request"}, status=400)
 
 
+
+
+
 # functions related to Admin
 
 def AdminCategoryList(request):
