@@ -3,12 +3,36 @@
 {% block title %}Categories{% endblock %}
 
 {% block content %}
-    <h1>All Category</h1>
-    <ul>
+    <!-- Center the heading -->
+    <h2 class="mt-5 text-center">All Categories</h2>
+    <div class="row row-cols-1 row-cols-md-3 g-4">
         {% for category in categories %}
-            <li><a href="{% url 'category_post' category.id %}">{{ category.name }}</a></li>
+            <div class="col">
+                <div class="card h-100">
+                    <!-- Show category-specific image based on the category name -->
+                    <img src="{{ category.image.url}}" class="card-img-top" alt="{{ category.name }}" style="width: 26rem;height: 19rem;">
+                    <div class="card-body">
+                        <h5 class="card-title">{{ category.name }}</h5>
+                        <p class="card-text">{{ category.description }}</p>
+                    </div>
+                    <div class="card-footer">
+                        <a href="{% url 'category_post' category.id %}" class="btn btn-primary btn-sm">View Posts</a>
+                    </div>
+                </div>
+            </div>
+        {% empty %}
+            <div class="col">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">No Categories Available</h5>
+                        <p class="card-text">There are no categories to display.</p>
+                    </div>
+                </div>
+            </div>
         {% endfor %}
-    </ul>
-    <!-- Optionally, adding a back link to the landing page -->
-    <a href="{% url 'landing_page'%}" class="btn btn-secondary">Back</a>
+    </div>
+    <!-- Center the back button -->
+    <div class="text-center">
+        <a href="{% url 'landing_page' %}" class="btn btn-primary mt-3">Back</a>
+    </div>
 {% endblock %}
