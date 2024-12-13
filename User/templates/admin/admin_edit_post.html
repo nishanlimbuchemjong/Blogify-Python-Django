@@ -1,12 +1,29 @@
 {% extends 'admin/admin_base.html' %}
+
+{% block title %}Edit Post{% endblock %}
+
 {% block content %}
 <div class="container mt-5">
-    <h1>Edit Post</h1>
-    <form method="POST">
-        {% csrf_token %}
-        {{ form.as_p }}
-        <button type="submit" class="btn btn-primary">Update Post</button>
-    </form>
-    <a href="{% url 'admin_post_detail' post.id %}" class="btn btn-secondary mt-2">Back to Posts</a>
+    <!-- Page Title -->
+    <h1 class="text-primary text-center mb-4">Edit Post</h1>
+
+    <!-- Edit Post Form -->
+    <div class="card shadow-sm">
+        <div class="card-body">
+            <h5 class="card-title">Update Post Details</h5>
+
+            <!-- Post Form -->
+            <form method="POST">
+                {% csrf_token %}
+                {{ form.as_p }}
+
+                <!-- Submit Button -->
+                <button type="submit" class="btn btn-primary">Update Post</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Back Link -->
+    <a href="{% url 'admin_post_detail' post.id %}" class="btn btn-primary mt-3">Back to Post</a>
 </div>
 {% endblock %}
