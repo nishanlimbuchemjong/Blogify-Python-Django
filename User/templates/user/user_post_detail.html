@@ -2,52 +2,71 @@
 
 {% block content %}
 <div class="container mt-5">
-    <h1>{{ post.title }}</h1>
-    <p>Author: <b>{{post.author.first_name}} {{post.author.last_name}}</b><br>
-        <small>Published on {{ post.created_at }}
-            {% if user == post.author %}
-                <small>
-                    <a href="{% url 'edit_post' post.id %}" class="btn btn-primary btn-sm">Edit</a>
-                    <a href="{% url 'delete_post' post.id %}" class="btn btn-danger btn-sm">Delete</a>
-                </small>
-            {% endif %}
-        </small>
-    </p>
+    <!-- Post Title and Metadata -->
+    <div class="card p-4 shadow-sm">
+        <h1 class="text-primary"><b>{{ post.title }}</b></h1>
+        <p class="text-muted">
+            <strong>Author:</strong> {{ post.author.first_name }} {{ post.author.last_name }} <br>
+            <small>Published on {{ post.created_at|date:"F d, Y H:i" }}</small>
+        </p>
 
-    <div class="post-content">
-        <p>{{ post.content }}</p>
+        {% if user == post.author %}
+        <div class="mt-3">
+            <a href="{% url 'edit_post' post.id %}" class="btn btn-outline-primary btn-sm">Edit Post</a>
+            <a href="{% url 'delete_post' post.id %}" class="btn btn-outline-danger btn-sm">Delete Post</a>
+        </div>
+        {% endif %}
     </div>
 
-    <!-- Like/Unlike Button -->
-    <div class="mt-4">
-        <button id="like-btn" class="btn {% if user_like %}btn-primary{% else %}btn-outline-primary{% endif %}">
-            {% if user_like %}Unlike{% else %}Like{% endif %}
+    <!-- Post Content -->
+    <div class="card my-4 shadow-sm">
+        {% if post.image %}
+            <img src="{{ post.image.url }}" class="card-img-top" alt="{{ post.title }}" style="max-height: 25rem; object-fit: cover;">
+        {% endif %}
+        <div class="card-body">
+            <p class="card-text">{{ post.content|linebreaks }}</p>
+        </div>
+    </div>
+
+    <!-- Like/Unlike Section -->
+    <div class="d-flex align-items-center my-4">
+        <button id="like-btn" class="btn {% if user_like %}btn-primary{% else %}btn-outline-primary{% endif %} me-3">
+            {% if user_like %}❤️ Unlike{% else %}👍 Like{% endif %}
         </button>
-        <span id="like-count">{{ like_count }} likes</span>
+        <span id="like-count" class="text-muted">{{ like_count }} {{ like_count|pluralize:"like,likes" }}</span>
     </div>
 
-   <!-- Comment Section -->
-    <div class="mt-4">
-        <h3>Comments</h3>
-        <ul id="comment-list">
+    <!-- Comment Section -->
+    <div class="card p-4 shadow-sm">
+        <h3 class="text-secondary mb-4">Comments</h3>
+        <ul id="comment-list" class="list-group mb-4">
             {% for comment in post.comments.all %}
-                <li><strong>{{ comment.author }}</strong>: {{ comment.content }}</li>
+            <li class="list-group-item d-flex justify-content-between align-items-start">
+                <div class="ms-2 me-auto">
+                    <div class="fw-bold">{{ comment.author }}</div>
+                    {{ comment.content }}
+                </div>
+                <span class="badge bg-light text-muted">{{ comment.created_at|date:"M d, Y H:i" }}</span>
+            </li>
             {% empty %}
-                <li>No comments yet. Be the first to comment!</li>
+            <li class="list-group-item text-muted">No comments yet. Be the first to comment!</li>
             {% endfor %}
         </ul>
 
         <form id="comment-form">
-            <textarea id="comment-text" class="form-control" placeholder="Enter your comment"></textarea>
-            <button type="submit" class="btn btn-primary mt-2">Submit</button>
+            <div class="form-group">
+                <textarea id="comment-text" class="form-control" placeholder="Write your comment here..." rows="3"></textarea>
+            </div>
+            <button type="submit" class="btn btn-primary mt-3">Post Comment</button>
         </form>
     </div>
 
     <!-- Back Link -->
-    <a href="{% url 'user_category_post' post.category.id %}" class="btn btn-secondary mt-3">Back</a>
+    <a href="{% url 'user_category_post' post.category.id %}" class="btn btn-primary mt-4">Back to Category</a>
 </div>
 
 <script>
+    // Like button functionality
     document.getElementById('like-btn').addEventListener('click', function () {
         fetch("{% url 'toggle_like' post.id %}", {
             method: "POST",
@@ -67,48 +86,55 @@
                 const likeBtn = document.getElementById("like-btn");
                 const likeCount = document.getElementById("like-count");
 
-                likeBtn.textContent = data.user_like ? "Unlike" : "Like";
+                likeBtn.textContent = data.user_like ? "❤️ Unlike" : "👍 Like";
                 likeBtn.className = `btn ${data.user_like ? "btn-primary" : "btn-outline-primary"}`;
-                likeCount.textContent = `${data.like_count} likes`;
+                likeCount.textContent = `${data.like_count} ${data.like_count === 1 ? "like" : "likes"}`;
             }
         });
     });
 
+    // Comment functionality
     document.getElementById("comment-form").addEventListener("submit", function (e) {
-    e.preventDefault();
-    const commentText = document.getElementById("comment-text").value;
+        e.preventDefault();
+        const commentText = document.getElementById("comment-text").value;
 
-    fetch("{% url 'post_comment' post.id %}", {
-        method: "POST",
-        headers: {
-            "X-CSRFToken": "{{ csrf_token }}",
-            "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ content: commentText }),
-    })
-    .then((response) => {
-        if (response.redirected) {
-            window.location.href = response.url;  // Redirect if user not logged in
-        } else if (response.ok) {
-            return response.json();
-        }
-    })
-    .then((data) => {
-        if (data) {
-            const commentList = document.getElementById("comment-list");
-            const newComment = document.createElement("li");
-            newComment.innerHTML = `<strong>${data.author}</strong>: ${data.content}`;
-            commentList.appendChild(newComment);
+        fetch("{% url 'post_comment' post.id %}", {
+            method: "POST",
+            headers: {
+                "X-CSRFToken": "{{ csrf_token }}",
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({ content: commentText }),
+        })
+        .then((response) => {
+            if (response.redirected) {
+                window.location.href = response.url;  // Redirect if user not logged in
+            } else if (response.ok) {
+                return response.json();
+            }
+        })
+        .then((data) => {
+            if (data) {
+                const commentList = document.getElementById("comment-list");
+                const newComment = document.createElement("li");
+                newComment.className = "list-group-item d-flex justify-content-between align-items-start";
+                newComment.innerHTML = `
+                    <div class="ms-2 me-auto">
+                        <div class="fw-bold">${data.author}</div>
+                        ${data.content}
+                    </div>
+                    <span class="badge bg-light text-muted">${new Date(data.created_at).toLocaleString()}</span>
+                `;
+                commentList.appendChild(newComment);
 
-            // Clear the comment input field
-            document.getElementById("comment-text").value = "";
-        }
-    })
-    .catch((error) => {
-        console.error("Error:", error);
+                // Clear the comment input field
+                document.getElementById("comment-text").value = "";
+            }
+        })
+        .catch((error) => {
+            console.error("Error:", error);
+        });
     });
-});
-
 </script>
 
 {% endblock %}
