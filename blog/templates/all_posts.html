@@ -2,25 +2,45 @@
 
 {% block content %}
 <div class="container mt-5">
-    <h1>All Posts</h1>
-
-    {% if posts %}
-        <div class="list-group">
-            {% for post in posts %}
-                <a href="{% url 'post_detail' post.id %}" class="list-group-item list-group-item-action">
-
-                    <h5 class="mb-1">{{ post.title }}</h5>
-                    <p class="mb-1">{{ post.content|truncatewords:20 }}</p>
-                    <small>Published: {{ post.created_at }}</small>
-                </a>
-            {% endfor %}
+    <div class="row">
+        <!-- Left Sidebar: Developer Info -->
+        <div class="col-md-4">
+            <div class="card p-3">
+                <h1 style="font-size: 2.5rem; font-weight: bold; color: #0d6efd;">
+                    "Inspire, Share, Grow!"
+                </h1>
+                <p style="font-size: 1.2rem; color: #6c757d; text-align:justify;">
+                    Discover amazing stories, engage with creative minds, and unleash your imagination.
+                </p>
+            </div>
         </div>
-        <!-- Optionally, adding a back link to the category list-->
-        <a href="{% url 'landing_page'%}" class="btn btn-secondary">Back</a>
 
-    {% else %}
-        <p>No posts available in this category.</p>
-    {% endif %}
+        <!-- Middle Section -->
+        <div class="col-md-8">
+            <h2 class="mb-4">All Posts</h2>
+            <div class="row row-cols-1 row-cols-md-1 g-4">
+                {% for post in posts %}
+                <div class="col">
+                    <div class="card h-100">
+                        <img src="{{ post.image.url }}" class="card-img-top" alt="{{ post.title }}" style="height: 21rem;">
+                        <div class="card-body">
+                            <h5 class="card-title">{{ post.title }}</h5>
+                            <p class="card-text">{{ post.content|truncatechars:150 }}</p>
+                            <a href="{% url 'post_detail' post.id %}" class="btn btn-primary btn-sm">Read More</a>
+                        </div>
+                        <div class="card-footer text-muted">
+                            Posted by {{ post.author }} on {{ post.created_at|date:"M d, Y" }}
+                        </div>
+                    </div>
+                </div>
+                {% empty %}
+                <p>No posts to display.</p>
+                {% endfor %}
+            </div>
+        </div>
+        <div class="text-center my-4">
+            <a  href="{% url 'landing_page'%}" class="btn btn-primary" >Back</a>
+        </div>
+    </div>
 </div>
 {% endblock %}
-
