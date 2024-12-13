@@ -4,19 +4,30 @@
 
 {% block content %}
 <div class="container mt-5">
-    <h2 class="mb-4">Edit User Profile: {{ user.first_name }} {{ user.last_name }}</h2>
-    
-    <form method="post">
-        {% csrf_token %}
-        {{ form.as_p }}
-        
-        <div class="mb-3">
-            <label for="new_password" class="form-label">New Password</label>
-            {{ form.new_password }}
-        </div>
+    <!-- Page Title -->
+    <h2 class="text-primary mb-4">Edit User Profile: {{ user.first_name }} {{ user.last_name }}</h2>
 
-        <button type="submit" class="btn btn-primary">Save Changes</button>
-        <a href="{% url 'user_home' %}" class="btn btn-secondary">Cancel</a>
-    </form>
+    <!-- Profile Edit Form -->
+    <div class="card shadow-sm">
+        <div class="card-body">
+            <!-- Form for Editing Profile -->
+            <form method="post">
+                {% csrf_token %}
+
+                <!-- Display the form fields -->
+                {{ form.as_p }}
+
+                <!-- New Password Field -->
+                <div class="mb-3">
+                    <label for="new_password" class="form-label">New Password</label>
+                    {{ form.new_password }}
+                </div>
+
+                <!-- Submit Button -->
+                <button type="submit" class="btn btn-primary">Save Changes</button>
+                <a href="{% url 'user_home' %}" class="btn btn-danger ml-2">Cancel</a>
+            </form>
+        </div>
+    </div>
 </div>
 {% endblock %}
