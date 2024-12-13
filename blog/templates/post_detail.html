@@ -2,40 +2,55 @@
 
 {% block content %}
 <div class="container mt-5">
-    <h1>{{ post.title }}</h1>
-    <p><small>Published on {{ post.created_at }}</small></p>
+    <!-- Post Title and Metadata -->
+    <div class="card p-4 shadow-sm">
+        <h1 class="display-4 text-primary"><b>{{ post.title }}</b></h1>
+        <p class="text-muted">Published on {{ post.created_at|date:"F d, Y" }} by <strong>{{ post.author }}</strong></p>
+    </div>
 
-    <div class="post-content">
-        <p>{{ post.content }}</p>
+    <!-- Post Content -->
+    <div class="card my-4 shadow-sm">
+        {% if post.image %}
+            <img src="{{ post.image.url }}" class="card-img-top" alt="{{ post.title }}" style="max-height: 25rem; object-fit: cover;">
+        {% endif %}
+        <div class="card-body">
+            <p class="card-text">{{ post.content|linebreaks }}</p>
+        </div>
     </div>
 
     <!-- Like/Unlike Button -->
-    <div class="mt-4">
-        <button id="like-btn" class="btn {% if user_like %}btn-primary{% else %}btn-outline-primary{% endif %}">
-            {% if user_like %}Unlike{% else %}Like{% endif %}
+    <div class="d-flex align-items-center my-4">
+        <button id="like-btn" class="btn {% if user_like %}btn-primary{% else %}btn-outline-primary{% endif %} me-3">
+            {% if user_like %}❤️ Unlike{% else %}👍 Like{% endif %}
         </button>
-        <span id="like-count">{{ like_count }} likes</span>
+        <span id="like-count" class="text-muted">{{ like_count }} {{ like_count|pluralize:"like,likes" }}</span>
     </div>
 
     <!-- Comment Section -->
-    <div class="mt-4">
-        <h3>Comments</h3>
-        <ul>
+    <div class="card p-4 shadow-sm">
+        <h3 class="text-secondary mb-4">Comments</h3>
+        <ul class="list-group mb-4">
             {% for comment in post.comments.all %}
-                <li><strong>{{ comment.author }}</strong>: {{ comment.content }}</li>
+                <li class="list-group-item">
+                    <strong>{{ comment.author }}</strong>
+                    <small class="text-muted">{{ comment.created_at|date:"M d, Y H:i" }}</small>
+                    <p class="mb-0">{{ comment.content }}</p>
+                </li>
             {% empty %}
-                <li>No comments yet. Be the first to comment!</li>
+                <li class="list-group-item text-muted">No comments yet. Be the first to comment!</li>
             {% endfor %}
         </ul>
 
         <form id="comment-form">
-            <textarea id="comment-text" class="form-control" placeholder="Enter your comment"></textarea>
-            <button type="submit" class="btn btn-primary mt-2">Submit</button>
+            <div class="form-group">
+                <textarea id="comment-text" class="form-control" placeholder="Write your comment here..." rows="3"></textarea>
+            </div>
+            <button type="submit" class="btn btn-primary mt-3">Post Comment</button>
         </form>
     </div>
 
     <!-- Back Link -->
-    <a href="{% url 'category_post' post.category.id %}" class="btn btn-secondary mt-3">Back</a>
+    <a href="{% url 'category_post' post.category.id %}" class="btn btn-primary mt-4">Back</a>
 </div>
 
 <script>
@@ -58,9 +73,9 @@
                 const likeBtn = document.getElementById("like-btn");
                 const likeCount = document.getElementById("like-count");
 
-                likeBtn.textContent = data.user_like ? "Unlike" : "Like";
+                likeBtn.textContent = data.user_like ? "❤️ Unlike" : "👍 Like";
                 likeBtn.className = `btn ${data.user_like ? "btn-primary" : "btn-outline-primary"}`;
-                likeCount.textContent = `${data.like_count} likes`;
+                likeCount.textContent = `${data.like_count} ${data.like_count === 1 ? "like" : "likes"}`;
             }
         });
     });
@@ -86,9 +101,14 @@
         })
         .then((data) => {
             if (data) {
-                const commentList = document.querySelector("ul");
+                const commentList = document.querySelector(".list-group");
                 const newComment = document.createElement("li");
-                newComment.innerHTML = `<strong>${data.author}</strong>: ${data.content}`;
+                newComment.className = "list-group-item";
+                newComment.innerHTML = `
+                    <strong>${data.author}</strong>
+                    <small class="text-muted">${new Date(data.created_at).toLocaleString()}</small>
+                    <p class="mb-0">${data.content}</p>
+                `;
                 commentList.appendChild(newComment);
 
                 document.getElementById("comment-text").value = "";
