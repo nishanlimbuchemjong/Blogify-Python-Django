@@ -51,7 +51,11 @@ def ContactPage(request):
 
 def AllPosts(request):
     posts = Post.objects.all()
-    return render(request, 'all_posts.html', {'posts': posts})
+    # Implement pagination
+    paginator = Paginator(posts, 2)
+    page_number = request.GET.get('page')  # Get the page number from the request
+    page_obj = paginator.get_page(page_number)  # Get the posts for the current page
+    return render(request, 'all_posts.html', {'posts': page_obj})
 
 def CategoryList(request):
     categories = Category.objects.all()
