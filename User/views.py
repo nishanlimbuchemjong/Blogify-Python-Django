@@ -4,6 +4,7 @@ from .forms import LoginForm, RegisterForm, PostForm
 from django.contrib import messages
 from django.shortcuts import get_object_or_404, redirect
 from .models import CustomUser
+from django.core.paginator import Paginator
 from blog.models import Post, Like, Category, Comment
 from django.contrib.auth.decorators import login_required
 from .forms import CategoryForm, EditUserProfileForm
@@ -159,7 +160,6 @@ def UserCategoryPosts(request, category_id):
 @login_required
 def UserPosts(request):
     user_posts = Post.objects.filter(author=request.user)
-    print("Posts fetched for user:", request.user, user_posts)  # Debug
     return render(request, 'user/users_own_posts.html', {'user_posts': user_posts})
 
 @login_required
@@ -352,7 +352,12 @@ def DeleteCategory(request, category_id):
 @login_required
 def AdminPosts(request):
     admin_posts = Post.objects.filter(author=request.user)
-    return render(request, 'admin/admin_own_posts.html', {'admin_posts': admin_posts})
+
+    # Implement pagination
+    paginator = Paginator(admin_posts, 1)
+    page_number = request.GET.get('page')  # Get the page number from the request
+    page_obj = paginator.get_page(page_number)  # Get the posts for the current page
+    return render(request, 'admin/admin_own_posts.html', {'admin_posts': page_obj})
 
 
 @login_required
