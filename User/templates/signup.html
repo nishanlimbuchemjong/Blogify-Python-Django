@@ -1,14 +1,46 @@
-<!-- templates/blog/register.html -->
 {% extends 'blog_base.html' %}
 
+{% block title %}Sign Up{% endblock %}
+
 {% block content %}
-<div class="container mt-5">
-    <h2>Sign Up</h2>
-    <form method="post">
-        {% csrf_token %}
-        {{ form.as_p }}
-        <button type="submit" class="btn btn-primary">Sign up</button>
-    </form>
-    <p>Already have an account? <a href="{% url 'login' %}">Log in</a></p>
+<div class="container d-flex align-items-center justify-content-center" style="min-height: 100vh;">
+    <div class="card shadow-lg p-4" style="width: 100%; max-width: 400px; border-radius: 15px;">
+        <!-- Page Title -->
+        <h3 class="text-center text-primary mb-4">Create Your Account</h3>
+        <p class="text-center text-muted">Join us and start sharing your stories today!</p>
+
+        <!-- Signup Form -->
+        <form method="post">
+            {% csrf_token %}
+            <div class="mb-3">
+                <label for="first_name" class="form-label">First Name</label>
+                {{ form.first_name }}
+            </div>
+            <div class="mb-3">
+                <label for="last_name" class="form-label">Last Name</label>
+                {{ form.last_name }}
+            </div>
+            <div class="mb-3">
+                <label for="email" class="form-label">Email</label>
+                {{ form.email }}
+            </div>
+            <div class="mb-3">
+                <label for="password" class="form-label">Password</label>
+                {{ form.password }}
+            </div>
+            <div class="mb-3">
+                <label for="password_confirm" class="form-label">Confirm Password</label>
+                {{ form.password_confirm }}
+            </div>
+
+            <!-- Signup Button -->
+            <button type="submit" class="btn btn-primary w-100 mb-3" style="border-radius: 25px;">Sign Up</button>
+        </form>
+
+        <!-- Login Redirect -->
+        <p class="text-center text-muted mb-0">
+            Already have an account? <a href="{% url 'login' %}" class="text-primary">Log in</a>
+        </p>
+    </div>
 </div>
 {% endblock %}
