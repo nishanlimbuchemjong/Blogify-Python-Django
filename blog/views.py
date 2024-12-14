@@ -1,7 +1,7 @@
 from django.shortcuts import get_object_or_404, redirect
 from django.http import HttpResponse, JsonResponse
 from django.shortcuts import render
-
+from django.core.paginator import Paginator
 from User.models import CustomUser
 from .models import Post, Like, Category, Comment
 from django.contrib.auth.decorators import login_required
@@ -12,9 +12,15 @@ from django.core.mail import send_mail
 from django.conf import settings
 
 def LandingPage(request):
-    posts = Post.objects.all()
-    # latest_post = Post.objects.order_by('-created_at')
-    return render(request, 'landing_page.html', {'posts':posts})
+    # Fetch all posts
+    posts = Post.objects.order_by('-created_at')  # Show latest posts first
+
+    # Implement pagination
+    paginator = Paginator(posts, 2)
+    page_number = request.GET.get('page')  # Get the page number from the request
+    page_obj = paginator.get_page(page_number)  # Get the posts for the current page
+
+    return render(request, 'landing_page.html', {'posts': page_obj})
 
 def AboutPage(request):
     total_users = CustomUser.objects.count()  # Get total number of users
