@@ -1,13 +1,32 @@
 {% extends 'admin/admin_base.html' %}
 
+{% block title %}Confirm Delete{% endblock %}
+
 {% block content %}
-<div class="container mt-5">
-    <h1>Confirm Delete</h1>
-    <p>Are you sure you want to delete the category <strong>{{ category.name }}</strong>?</p>
-    <form method="POST">
-        {% csrf_token %}
-        <button type="submit" class="btn btn-danger">Yes, Delete</button>
-        <a href="{% url 'admin_category_list' %}" class="btn btn-secondary">Cancel</a>
-    </form>
+<div class="d-flex flex-column min-vh-100">
+    <!-- Main Content -->
+    <div class="container my-auto">
+        <!-- Page Title -->
+        <h1 class="text-danger text-center mb-4">Confirm Delete</h1>
+
+        <!-- Confirmation Message -->
+        <div class="alert alert-warning text-center">
+            <p>
+                Are you sure you want to permanently delete the category:
+                <strong>"{{ category.name }}"</strong>?
+            </p>
+            <p class="text-muted">This action cannot be undone.</p>
+        </div>
+
+        <!-- Action Buttons -->
+        <div class="text-center">
+            <form method="POST" class="d-inline">
+                {% csrf_token %}
+                <button type="submit" class="btn btn-danger">Yes, Delete</button>
+            </form>
+            <a href="{% url 'admin_category_list' %}" class="btn btn-danger ms-2">Cancel</a>
+        </div>
+    </div>
+
 </div>
 {% endblock %}
