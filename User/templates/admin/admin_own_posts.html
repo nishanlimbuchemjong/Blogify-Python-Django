@@ -1,22 +1,45 @@
 {% extends 'admin/admin_base.html' %}
 
+{% block title %}Your Posts{% endblock %}
+
 {% block content %}
 <div class="container mt-5">
-    <h1>Your Posts</h1>
+    <!-- Page Title -->
+    <h1 class="text-primary text-center mb-4">Your Posts</h1>
 
+    <!-- Post List -->
     {% if admin_posts %}
-        <div class="list-group">
+        <div class="row">
             {% for post in admin_posts %}
-                <a href="{% url 'admin_post_detail' post.id %}" class="list-group-item list-group-item-action">
-                    <h5 class="mb-1">{{ post.title }}</h5>
-                    <p class="mb-1">{{ post.content|truncatewords:20 }}</p>
-                    <small>Published: {{ post.created_at }}</small>
-                </a>
+                <div class="col-md-6 mb-4">
+                    <div class="card shadow-sm">
+                        <div class="card-body">
+                            <!-- Post Title -->
+                            <h5 class="card-title">{{ post.title }}</h5>
+
+                            <!-- Post Content (Truncated) -->
+                            <p class="card-text text-muted">{{ post.content|truncatewords:20 }}</p>
+
+                            <!-- Post Details -->
+                            <small class="text-muted">Published: {{ post.created_at }}</small>
+
+                            <!-- Action Buttons -->
+                            <div class="mt-3">
+                                <a href="{% url 'admin_post_detail' post.id %}" class="btn btn-primary btn-sm">View Details</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             {% endfor %}
         </div>
     {% else %}
-        <p>No posts available. Start creating your first post!</p>
+        <!-- No Posts Message -->
+        <div class="alert alert-warning text-center">
+            <p>No posts available. Start creating your first post!</p>
+        </div>
     {% endif %}
-    <a href="{% url 'admin_home'%}" class="btn btn-secondary">Back</a>
+
+    <!-- Back Button -->
+    <a href="{% url 'admin_home' %}" class="btn btn-primary mt-4">Back</a>
 </div>
 {% endblock %}
