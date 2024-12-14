@@ -165,7 +165,13 @@ def UserCategoryPosts(request, category_id):
 @login_required
 def UserPosts(request):
     user_posts = Post.objects.filter(author=request.user)
-    return render(request, 'user/users_own_posts.html', {'user_posts': user_posts})
+
+    # Implement pagination
+    paginator = Paginator(user_posts, 2)
+    page_number = request.GET.get('page')  # Get the page number from the request
+    page_obj = paginator.get_page(page_number)  # Get the posts for the current page
+
+    return render(request, 'user/users_own_posts.html', {'user_posts': page_obj})
 
 @login_required
 def UserPostDetails(request, post_id):
