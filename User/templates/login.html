@@ -1,14 +1,34 @@
-
 {% extends 'blog_base.html' %}
 
+{% block title %}Login{% endblock %}
+
 {% block content %}
-<div class="container mt-5">
-    <h2>Login</h2>
-    <form method="post">
-        {% csrf_token %}
-        {{ form.as_p }}
-        <button type="submit" class="btn btn-primary">Log in</button>
-    </form>
-    <p>Don't have an account? <a href="{% url 'signup' %}">Sign up</a></p>
+<div class="container d-flex align-items-center justify-content-center" style="min-height: 85vh;">
+    <div class="card shadow-lg p-4" style="width: 100%; max-width: 400px; border-radius: 15px;">
+        <!-- Page Title -->
+        <h3 class="text-center text-primary mb-4">Welcome Back!</h3>
+        <p class="text-center text-muted">Login to access your account</p>
+
+        <!-- Login Form -->
+        <form method="post">
+            {% csrf_token %}
+            <div class="mb-3">
+                <label for="id_username" class="form-label">Email or Username</label>
+                {{ form.email }}
+            </div>
+            <div class="mb-3">
+                <label for="id_password" class="form-label">Password</label>
+                {{ form.password }}
+            </div>
+
+            <!-- Login Button -->
+            <button type="submit" class="btn btn-primary w-100 mb-3" style="border-radius: 25px;">Log in</button>
+        </form>
+
+        <!-- Signup Redirect -->
+        <p class="text-center text-muted mb-0">
+            Don't have an account? <a href="{% url 'signup' %}" class="text-primary">Sign up</a>
+        </p>
+    </div>
 </div>
 {% endblock %}
