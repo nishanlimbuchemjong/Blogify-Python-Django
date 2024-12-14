@@ -1,12 +1,31 @@
 {% extends 'admin/admin_base.html' %}
+
+{% block title %}Delete Post{% endblock %}
+
 {% block content %}
-<div class="container mt-5">
-    <h1>Delete Post</h1>
-    <p>Are you sure you want to delete the post: <strong>{{ post.title }}</strong>?</p>
-    <form method="POST">
-        {% csrf_token %}
-        <button type="submit" class="btn btn-danger">Delete Post</button>
-    </form>
-    <a href="{% url 'admin_post_detail' post.id%}" class="btn btn-secondary mt-2">Cancel</a>
+<div class="d-flex flex-column min-vh-100">
+    <!-- Main Content -->
+    <div class="container my-auto">
+        <!-- Page Title -->
+        <h1 class="text-danger text-center mb-4">Delete Post</h1>
+
+        <!-- Confirmation Message -->
+        <div class="alert alert-warning text-center">
+            <p>
+                Are you sure you want to permanently delete the post:
+                <strong>"{{ post.title }}"</strong>?
+            </p>
+            <p class="text-muted">This action cannot be undone.</p>
+        </div>
+
+        <!-- Action Buttons -->
+        <div class="text-center">
+            <form method="POST" class="d-inline">
+                {% csrf_token %}
+                <button type="submit" class="btn btn-danger">Yes, Delete Post</button>
+            </form>
+            <a href="{% url 'admin_post_detail' post.id %}" class="btn btn-danger ms-2">Cancel</a>
+        </div>
+    </div>
 </div>
 {% endblock %}
