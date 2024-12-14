@@ -16,7 +16,12 @@ def UserHome(request):
     posts = Post.objects.all()
     categories = Category.objects.all()
 
-    return render(request, 'user/user_home.html', {'posts': posts, 'categories': categories})
+    # Implement pagination
+    paginator = Paginator(posts, 3)
+    page_number = request.GET.get('page')  # Get the page number from the request
+    page_obj = paginator.get_page(page_number)  # Get the posts for the current page
+
+    return render(request, 'user/user_home.html', {'posts': page_obj, 'categories': categories})
 
 # Create your views here.
 def Login(request):
